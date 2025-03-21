@@ -84,18 +84,18 @@ que serán visualizadas.
     float temp;
     printf('La temperatura de %c es %f',sensor, temp);
 
-5.  ¿Cuál es el rango numérico de i y j en su PC?
+### 5. ¿Cuál es el rango numérico de i y j en su PC?
 
     char i;
     unsigned char j;
 
-6.  ¿Cuál es el valor en base 2 (binario) de i, j, k?
+### 6. ¿Cuál es el valor en base 2 (binario) de i, j, k?
 
     char i = 'a';
     char j = 77;
     char k = 0x4D;
 
-7.  Cuáles de entre estas declaraciones contienen errores?
+### 7. Cuáles de entre estas declaraciones contienen errores?
 
     integer a;
     short i,j,k;
@@ -107,17 +107,20 @@ que serán visualizadas.
     float ancho, alto, long;
     bool i;
 
-8.  Averigüe los tamaños de todos los tipos básicos en su sistema aplicando
+### 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando
+
     el operador sizeof().
 
-9.  Prepare un programa con una variable de tipo char y otra de tipo unsigned
+### 9. Prepare un programa con una variable de tipo char y otra de tipo unsigned
+
     char. Inicialice ambas variables con los valores máximos de cada tipo,
     para comprobar el resultado de incrementarlas en una unidad.
     Imprima los valores de cada variable antes y después del incremento.
     (Nota: vea la sección "3.2. Tamaños de los objetos de datos"
     de taller-c.pdf.)
 
-10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos"
+### 10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos"
+
     del PDF taller-c.pdf)
     10.a ¿Qué hace falta corregir para que la variable r contenga la división
     exacta de a y b?
@@ -149,10 +152,12 @@ que serán visualizadas.
         printf("%f\n", (int)3.1416);
         printf("%d\n", (int)3.1416);
 
-11. Escribir un programa que multiplique e imprima 100000 \* 100000.
+### 11. Escribir un programa que multiplique e imprima 100000 \* 100000.
+
     ¿De qué tamaño son los ints en su sistema?
 
-12. Descargue el código ahorcado.c propuesto por la cátedra.
+### 12. Descargue el código ahorcado.c propuesto por la cátedra.
+
     12.a Investigar cuál es la función que cumplen las siguientes lineas de
     código:
     #include <stdio.h>
@@ -160,5 +165,6 @@ que serán visualizadas.
     system ("/bin/stty raw");
     system ("/bin/stty sane erase ^H");
 
-12.b Complete el código ahorcado.c usando printf() y getchar(), para
+### 12.b Complete el código ahorcado.c usando printf() y getchar(), para
+
 desarrollar el juego del ahorcado.
