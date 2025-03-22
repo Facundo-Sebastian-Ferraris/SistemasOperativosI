@@ -219,5 +219,4 @@ int main() {
 
  system ("/bin/stty sane erase ^H");
 }
-
 ```
