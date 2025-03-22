@@ -1,10 +1,10 @@
 # Resultados TP 0 🖥️✨
 
-`_Alumno:_ Facundo Ferraris [FAI-3810]`
+_Alumno:_ [Facundo Ferraris [FAI-3810]](https://github.com/Facundo-Sebastian-Ferraris/SistemasOperativosI)
 
-## 0. Hola Mundo!
+## 0. Hola Mundo
 
-### Codigo
+- **Codigo**
 
 ```c
 #include <stdio.h>
@@ -15,7 +15,7 @@ int main() {
 }
 ```
 
-### Salida
+- **Salida**
 
 ```bash
     HOLA MUNDO! 🌱✨
@@ -32,23 +32,11 @@ double  c = 2.12321 // Un numero en punto flotante
 char    e = 'e';    // Un elemento del tamaño de un byte
 ```
 
-- A su vez se encuentran los modificadores que permiten agregar/restringir criterios para cada tipo: 🔧
+- A su vez se encuentran modificadores que permiten agregar/restringir criterios para cada tipo: 🔧
   - **`short`**: Reduce el tamaño del tipo base, generalmente usado con `int`.  
-    - **Tamaño típico**: 2 bytes (16 bits).  
-    - **Rango**: -32,768 a 32,767.  
-    - **Efecto**: Limita la capacidad para ahorrar memoria.
   - **`long`**: Aumenta el tamaño del tipo base, aplicable a `int` o `double`.  
-    - **Tamaño típico**: 4 bytes (32 bits) o 8 bytes (64 bits) para `long int`; 10-16 bytes para `long double`.  
-    - **Rango**: Para `long int` en 64 bits: -9,223,372,036,854,775,808 a 9,223,372,036,854,775,807.  
-    - **Efecto**: Permite almacenar valores más grandes o mayor precisión.
-  - **`unsigned`**: Elimina el signo, usando todos los bits para valores positivos.  
-    - **Tamaño típico**: Igual al tipo base (ej. 4 bytes para `unsigned int`).  
-    - **Rango**: Para `unsigned int`: 0 a 4,294,967,295.  
-    - **Efecto**: Duplica el límite superior, restringe a solo positivos.
+  - **`unsigned`**: Elimina el signo, usando todos los bits para valores positivos.
   - **`signed`**: Especifica que el tipo incluye valores negativos (predeterminado en la mayoría de los casos).  
-    - **Tamaño típico**: Igual al tipo base (ej. 4 bytes para `signed int`).  
-    - **Rango**: Para `signed int`: -2,147,483,648 a 2,147,483,647.  
-    - **Efecto**: Asegura un rango con signo (rara vez necesario explícitamente).
 
 - **Observaciones:**
   - Cuando se invoca los modificadores short y long, se asumen por default como int
@@ -66,13 +54,62 @@ El tamaño de una "word" varía según la arquitectura:
 
 ## 3. Bits en una variable `int` en C 🔢
 
-¿Cuántos bits puede almacenar una variable declarada como `int` en C? (Ejemplo: `int var;`).
-Supón 3 computadoras con arquitecturas diferentes:
+  Los bits que ocupará una variable `int` dependerá del compilador y de la arquitectura de la computadora
 
-- Arquitectura de **8 bits**
-- Arquitectura de **32 bits**
-- Arquitectura de **64 bits**
+- **Arquitectura de 8 bits** ⚙️  
+  Suele ser **16 bits** (2 bytes), ya que el estándar de C requiere que un `int` tenga al menos 16 bits.
+  Aunque la `word` del procesador sea 8 bits, el compilador ajusta el `int` para cumplir con esta regla mínima.
 
-¿Y en tu PC? 🖱️
+- **Arquitectura de 32 bits** 💾  
+  Ocupa **32 bits** (4 bytes), coincidiendo con el tamaño de la `word` del procesador.
+  Es el tamaño más común en sistemas de 32 bits.
 
-> **NOTA** ℹ️: La respuesta no es tan trivial como parece. Deberás buscar información sobre el lenguaje de programación C. Usa Wikipedia u otros recursos.
+- **Arquitectura de 64 bits** 🖥️  
+  Ocupa nuevamente **32 bits** (4 bytes) a pesar de que la word sea de 64 bits.
+  Aunque, en algunos sistemas o compiladores podrían definir un `int` de 64 bits (8 bytes) aumentando mucho mas su rango.
+
+- **Nuestra PC**
+Para averiguar la cantidad de bits que ocupa un entero en mi computadora (de 64bits), se implementa el siguiente codigo:
+
+---
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf(
+        "\"PC con arquitectura de 64 bits 🖥️ \"\n\tBits en un int: %zu ✨\n ",
+        sizeof(int) * 8);
+    return 0;
+}
+```
+
+donde `%zu` es un especificador de formato 
+
+- **Salida**
+
+```bash
+"PC con arquitectura de 64 bits 🖥️ "
+        Bits en un int: 32 ✨
+```
+
+---
+
+Entonces podemos concluir que en nuestra PC, el int ocupa 32 bits
+
+## 4. Diferencia en la salida con `printf()` ✏️
+
+Dado el codigo
+
+```c
+char a = 'M';
+printf("a = %i \n", a);
+printf("La letra %c \n", a);
+```
+
+- **Salida**
+
+```bash
+a = 77 
+La letra M
+```
