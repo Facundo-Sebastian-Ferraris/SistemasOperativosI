@@ -1,6 +1,6 @@
 # Resultados TP 0 🖥️✨
 
-`Facundo Ferraris [FAI-3810]`
+`_Alumno:_ Facundo Ferraris [FAI-3810]`
 
 ## 0. Hola Mundo!
 
@@ -55,12 +55,24 @@ char    e = 'e';    // Un elemento del tamaño de un byte
 
 ## 2. "word" en Arquitectura de Computadoras 🖥️
 
-En arquitectura de computadoras, una **"word"** (palabra) se refiere a la **unidad de datos básica** que el procesador puede manejar de manera eficiente en una sola operación. Es el tamaño estándar de los registros del procesador y determina cuántos bits puede procesar o transferir simultáneamente. El tamaño de una "word" varía según la arquitectura:
+Una **"word"** es la **unidad de datos básica** que el procesador puede manejar de manera eficiente en una sola operación.
+Es el tamaño estándar de los registros del procesador y determina cuántos bits puede procesar o transferir simultáneamente.
 
-- En una arquitectura de **8 bits**, una word suele ser **1 byte** (8 bits).  
-- En una arquitectura de **32 bits**, una word es típicamente **4 bytes** (32 bits).  
-- En una arquitectura de **64 bits**, una word es generalmente **8 bytes** (64 bits).  
+El tamaño de una "word" varía según la arquitectura:
 
-Por ejemplo, en un procesador de 64 bits, una "word" de 8 bytes permite manejar números enteros o direcciones de memoria de hasta 64 bits en una sola instrucción. Este concepto es clave para entender la capacidad de procesamiento y el diseño de los sistemas operativos y programas en C, ya que afecta cómo se almacenan y operan los tipos de datos como `int`.
+- **8 bits**, una word suele ser **1 byte** (8 bits).  
+- **32 bits**,  una word es típicamente **4 bytes** (32 bits).  
+- **64 bits**,  una word es generalmente **8 bytes** (64 bits).
 
-> **Nota** ℹ️: El tamaño de una "word" no siempre coincide con el tamaño de un `int` en C, ya que este último depende también del compilador y no solo de la arquitectura.
+## 3. Bits en una variable `int` en C 🔢
+
+¿Cuántos bits puede almacenar una variable declarada como `int` en C? (Ejemplo: `int var;`).
+Supón 3 computadoras con arquitecturas diferentes:
+
+- Arquitectura de **8 bits**
+- Arquitectura de **32 bits**
+- Arquitectura de **64 bits**
+
+¿Y en tu PC? 🖱️
+
+> **NOTA** ℹ️: La respuesta no es tan trivial como parece. Deberás buscar información sobre el lenguaje de programación C. Usa Wikipedia u otros recursos.
