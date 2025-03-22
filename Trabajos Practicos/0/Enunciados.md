@@ -16,18 +16,22 @@
 Escriba un programa `hello world`. Compilar y ejecutar.  
 (Utilice como soporte la sección **"1.4 Un primer ejemplo"** del PDF _taller-c.pdf_).
 
-#### Ejemplo:
+#### Ejemplo
 
 vi hello.c \# Edición. Usar `vi` u otro editor de preferencia (como `pluma`).
 make hello \# Compilación.
 
-# También se puede compilar el programa invocando `gcc`:
+#### También se puede compilar el programa invocando `gcc`
 
+```bash
 gcc -o hello hello.c # Compilación invocando `gcc`.
+```
 
-# NOTA: No use `make` y luego `gcc`. Uno u otro.
+#### NOTA: No use `make` y luego `gcc`. Uno u otro
 
+```bash
 ./hello # Ejecución.\
+```
 
 > **NOTA** 📝: Para los ejercicios 1 al 9 inclusive, utiliza como soporte el capítulo "Capítulo 3 Tipos de datos y expresiones" del PDF _taller-c.pdf_.
 
@@ -76,27 +80,40 @@ Ayuda: En la función "printf()" se pasa como parámetro la cadena de
 caracteres que se desea imprimir y, además, cada una de las variables
 que serán visualizadas.
 
-    Si deseamos imprimir más de una variable en una cadena de caracteres,
+Si deseamos imprimir más de una variable en una cadena de caracteres,
     el orden de los parámetros debe corresponder al orden de dichas
         variables en la cadena.
 
+```c
     char sensor;
     float temp;
     printf('La temperatura de %c es %f',sensor, temp);
+```
+
+---
 
 ### 5. ¿Cuál es el rango numérico de i y j en su PC?
 
-    char i;
-    unsigned char j;
+```c
+   char i;
+   unsigned char j;
+```
+
+---
 
 ### 6. ¿Cuál es el valor en base 2 (binario) de i, j, k?
 
+```c
     char i = 'a';
     char j = 77;
     char k = 0x4D;
+```
+
+---
 
 ### 7. Cuáles de entre estas declaraciones contienen errores?
 
+```c
     integer a;
     short i,j,k;
     long float (h);
@@ -106,65 +123,101 @@ que serán visualizadas.
     int MY;
     float ancho, alto, long;
     bool i;
+```
 
-### 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando
+---
 
-    el operador sizeof().
+### 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando el operador `sizeof()`
 
-### 9. Prepare un programa con una variable de tipo char y otra de tipo unsigned
+---
 
-    char. Inicialice ambas variables con los valores máximos de cada tipo,
-    para comprobar el resultado de incrementarlas en una unidad.
-    Imprima los valores de cada variable antes y después del incremento.
-    (Nota: vea la sección "3.2. Tamaños de los objetos de datos"
-    de taller-c.pdf.)
+### 9. Prepare un programa con una variable de tipo char y otra de tipo unsigned char
 
-### 10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos"
+Inicialice ambas variables con los valores máximos de cada tipo,
+para comprobar el resultado de incrementarlas en una unidad.
+Imprima los valores de cada variable antes y después del incremento.
 
-    del PDF taller-c.pdf)
-    10.a ¿Qué hace falta corregir para que la variable r contenga la división
-    exacta de a y b?
+#### (Nota: vea la sección "3.2. Tamaños de los objetos de datos" de taller-c.pdf.)
 
-        int a, b;
-        float r;
-        a = 5;
-        b = 2;
-        r = a / b;
+---
 
-    10.b ¿Qué resultado puede esperarse del siguiente fragmento de código?
+### 10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos" del PDF taller-c.pdf)
 
-        int a, b, c, d;
-        a = 1;
-        b = 2;
-        c = a / b;
-        d = a / c;
+#### a) ¿Qué hace falta corregir para que la variable r contenga la división exacta de a y b?
 
-    10.c ¿Cuál es el resultado del siguiente fragmento de código? Anticipe su
-    respuesta en base a lo dicho en esta unidad y luego confírmela mediante
-    un programa.
+```c
+    int a, b;
+    float r;
+    a = 5;
+    b = 2;
+    r = a / b;
+```
 
-        printf("%d\n", 20/3);
-        printf("%f\n", 20/3);
-        printf("%f\n", 20/3.);
-        printf("%d\n", 10%3);
-        printf("%d\n", 3.1416);
-        printf("%f\n", (double)20/3);
-        printf("%f\n", (int)3.1416);
-        printf("%d\n", (int)3.1416);
+#### b) ¿Qué resultado puede esperarse del siguiente fragmento de código?
 
-### 11. Escribir un programa que multiplique e imprima 100000 \* 100000.
+```c
+    int a, b, c, d;
+    a = 1;
+    b = 2;
+    c = a / b;
+    d = a / c;
+```
 
-    ¿De qué tamaño son los ints en su sistema?
+#### c) ¿Cuál es el resultado del siguiente fragmento de código? Anticipe su respuesta en base a lo dicho en esta unidad y luego confírmela mediante un programa
 
-### 12. Descargue el código ahorcado.c propuesto por la cátedra.
+```c
+    printf("%d\n", 20/3);
+    printf("%f\n", 20/3);
+    printf("%f\n", 20/3.);
+    printf("%d\n", 10%3);
+    printf("%d\n", 3.1416);
+    printf("%f\n", (double)20/3);
+    printf("%f\n", (int)3.1416);
+    printf("%d\n", (int)3.1416);
+```
 
-    12.a Investigar cuál es la función que cumplen las siguientes lineas de
-    código:
+---
+
+### 11. Escribir un programa que multiplique e imprima 100000 \* 100000
+
+¿De qué tamaño son los ints en su sistema?
+
+---
+
+### 12. Descargue el código ahorcado.c propuesto por la cátedra
+
+#### a) Investigar cuál es la función que cumplen las siguientes lineas de código
+
+```c
     #include <stdio.h>
     #include <stdlib.h>
     system ("/bin/stty raw");
     system ("/bin/stty sane erase ^H");
+```
 
-### 12.b Complete el código ahorcado.c usando printf() y getchar(), para
+#### b) Complete el código ahorcado.c usando printf() y getchar(), para desarrollar el juego del ahorcado
 
-desarrollar el juego del ahorcado.
+```c
+#include <stdio.h>
+#include <stdlib.h> /* para las funciones system y exit */
+
+int main() {
+
+ int c;
+
+ /* Decirle al sistema que el modo input es RAW */
+ system ("/bin/stty raw");
+
+ while(1) {
+  printf("\r                                                          ");
+  printf("\r c = %c  ingrese una letra (0 para salir): ", c);
+  c = getchar();
+
+  if (c == '0')
+   break;
+ }
+
+ system ("/bin/stty sane erase ^H");
+}
+
+```
