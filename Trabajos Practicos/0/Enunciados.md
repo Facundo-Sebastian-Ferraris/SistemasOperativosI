@@ -27,15 +27,15 @@ make hello \# Compilación.
 gcc -o hello hello.c # Compilación invocando `gcc`.
 ```
 
-#### NOTA: No use `make` y luego `gcc`. Uno u otro
+> **NOTA** 📝: No use `make` y luego `gcc`. Uno u otro
 
 ```bash
 ./hello # Ejecución.\
 ```
 
-> **NOTA** 📝: Para los ejercicios 1 al 9 inclusive, utiliza como soporte el capítulo "Capítulo 3 Tipos de datos y expresiones" del PDF _taller-c.pdf_.
-
 ---
+
+> **NOTA** 📝: Para los ejercicios 1 al 9 inclusive, utiliza como soporte el capítulo "Capítulo 3 Tipos de datos y expresiones" del PDF _taller-c.pdf_.
 
 ### 1. Tipos de datos básicos en C 🚀
 
