@@ -53,8 +53,7 @@ char    e = 'e';    // Un elemento del tamaño de un byte
 - **Observaciones:**
   - Cuando se invoca los modificadores short y long, se asumen por default como int
 
-
-### 2. "word" en Arquitectura de Computadoras 🖥️
+## 2. "word" en Arquitectura de Computadoras 🖥️
 
 En arquitectura de computadoras, una **"word"** (palabra) se refiere a la **unidad de datos básica** que el procesador puede manejar de manera eficiente en una sola operación. Es el tamaño estándar de los registros del procesador y determina cuántos bits puede procesar o transferir simultáneamente. El tamaño de una "word" varía según la arquitectura:
 
