@@ -84,7 +84,7 @@ int main() {
 }
 ```
 
-donde `%zu` es un especificador de formato para poder leer el tipo de dato size_t
+donde `%zu` es un especificador de formato para poder leer el tipo de dato size_t (esto es porque el metodo `sizeOf()` retorna ese mismo tipo)
 
 - **Salida**
 
@@ -113,3 +113,5 @@ printf("La letra %c \n", a);
 a = 77 
 La letra M
 ```
+
+La diferencia radica en los especiicadores de formato que se estan utilizando
