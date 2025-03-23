@@ -1,0 +1,48 @@
+# Ignorar archivos objeto y binarios
+*.o
+*.out
+*.exe
+*
+!*/
+!*.*
+
+/.clang-format
+# Ignorar archivos generados por el compilador
+*.a
+*.so
+*.dll
+
+# Ignorar archivos de depuración y símbolos
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Ignorar archivos de configuración local
+/.vscode/
+/.idea/
+
+# Ignorar archivos de log
+*.log
+
+# Ignorar archivos temporales
+*.swp
+*.swo
+*~
+
+# Ignorar directorios de build
+/build/
+/bin/
+
+# Ignorar archivos de datos generados
+*.dat
+*.csv
+
+# Ignorar archivos de dependencias
+/deps/
+/vendor/
+
+# Ignorar archivos específicos del sistema
+.DS_Store
+Thumbs.db
+

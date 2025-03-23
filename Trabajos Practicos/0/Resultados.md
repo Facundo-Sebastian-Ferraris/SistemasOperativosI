@@ -4,18 +4,7 @@ _Alumno:_ [Facundo Ferraris [FAI-3810]](https://github.com/Facundo-Sebastian-Fer
 
 ## 0. Hola Mundo
 
-- **Codigo**
-
-```c
-#include <stdio.h>
-
-int main() {
-    printf("\tHOLA MUNDO! 🌱✨\n");
-    return 0;
-}
-```
-
-- **Salida**
+Dado el codigo ([helloWorld.c](./00-HelloWorld.c)) la salida resultante es:
 
 ```bash
     HOLA MUNDO! 🌱✨
@@ -71,41 +60,22 @@ El tamaño de una "word" varía según la arquitectura:
 - **Nuestra PC**
 Para averiguar la cantidad de bits que ocupa un entero en mi computadora (de 64bits), se implementa el siguiente codigo:
 
----
-
-```c
-#include <stdio.h>
-
-int main() {
-    printf(
-        "\"PC con arquitectura de 64 bits 🖥️ \"\n\tBits en un int: %zu ✨\n ",
-        sizeof(int) * 8);
-    return 0;
-}
-```
-
-donde `%zu` es un especificador de formato para poder leer el tipo de dato size_t (esto es porque el metodo `sizeOf()` retorna ese mismo tipo)
-
-- **Salida**
+Dado el codigo en el enlace ([ver codigo](./03-SizeInt.c)) con salida por pantalla:
 
 ```bash
 "PC con arquitectura de 64 bits 🖥️ "
         Bits en un int: 32 ✨
-```
 
----
+ Se utilizo %zu que es un especificador de formato para poder 
+ leer el tipo de dato size_t.
+(esto es porque el metodo sizeOf() retorna ese mismo tipo)
+```
 
 Entonces podemos concluir que en nuestra PC, el int ocupa 32 bits
 
 ## 4. Diferencia en la salida con `printf()` ✏️
 
-Dado el codigo
-
-```c
-char a = 'M';
-printf("a = %i \n", a);
-printf("La letra %c \n", a);
-```
+Dado el codigo en el enlace ([ver codigo](./04-Diferencias.c)) con salida:
 
 - **Salida**
 
@@ -114,4 +84,175 @@ a = 77
 La letra M
 ```
 
-La diferencia radica en los especiicadores de formato que se estan utilizando
+La diferencia radica en los especiicadores de formato que se estan utilizando:
+
+| Especificador de Formato  | Funcionalidad |
+|:-:                        |:-             |
+| **%i**                    | i de entero, por lo que interpreta el valor entero de `a` |
+| **%c**                    | c de caracter, interpreta el caracter ascii de `a` |
+
+## 5. Rango de char y unsigned char
+
+```c
+   char i;
+   unsigned char j;
+```
+
+En los archivos del lenguaje existe una libreria llamada `<limits.h>`, donde se sentan los valores minimos y maximos de cada tipo de dato.
+Por lo tanto importando esta libreria a un codigo, e imprimos las constantes, podremos saber dichos rangos.
+
+El codigo en cuestion se encuentra en el enlace [ver aqui](05-RangosNumericos.c), y la salida por pantalla es:
+
+```bash
+Utilizado libreria "<limits.h>" 📚, donde se guardan las constantes de dichos rangos 📐 
+
+Rango de char 🅰️:                 -128   a 127
+Rango de signed char ✔️ ➖ ➕:    -128   a 127
+Rango de unsigned char ❌ ➖:    0      a 255
+```
+
+## 6. ¿Cuál es el valor en base 2 (binario) de i, j, k?
+
+Dado las declaraciones de las variables
+
+```c
+    char i = 'a';
+    char j = 77;
+    char k = 0x4D;
+```
+
+Por medio de este [codigo](./06-Binario.c) obtenemos la salida
+
+```bash
+🔢 Números en Decimal:
+----------------------
+👉 i = 97
+👉 j = 77
+👉 k = 77
+
+🔍 Conversión a Binario:
+------------------------
+🟢 i en binario: 00000000 00000000 00000000 01100001 
+🟡 j en binario: 00000000 00000000 00000000 01001101 
+🔴 k en binario: 00000000 00000000 00000000 01001101 
+
+📚 Explicaciones:
+-----------------
+El método `printToBin`:
+        ✅ Recorre de izquierda a derecha (bit por bit) e imprime 1 y 0 secuencialmente.
+La instrucción `(a >> bit) & 1` realiza lo siguiente:
+        ✅ `(a >> bit)`: Desplaza `a`, `bit` veces hacia la derecha (ej: `(10010 >> 1) = 01001`).
+        ✅ `&`: Es el operador AND bitwise, que compara los bits menos significativos (ej: `1 & 0 = 0`; `1 & 1 = 1`).
+```
+
+---
+
+## 7. Cuáles de entre estas declaraciones contienen errores?
+
+```c
+    integer a;
+    short i,j,k;
+    long float (h);
+    double long d3;
+    unsigned float n;
+    char 2j;
+    int MY;
+    float ancho, alto, long;
+    bool i;
+```
+
+---
+
+## 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando el operador `sizeof()`
+
+---
+
+## 9. Prepare un programa con una variable de tipo char y otra de tipo unsigned char
+
+Inicialice ambas variables con los valores máximos de cada tipo,
+para comprobar el resultado de incrementarlas en una unidad.
+Imprima los valores de cada variable antes y después del incremento.
+
+#### (Nota: vea la sección "3.2. Tamaños de los objetos de datos" de taller-c.pdf.)
+
+---
+
+## 10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos" del PDF taller-c.pdf)
+
+### a) ¿Qué hace falta corregir para que la variable r contenga la división exacta de a y b?
+
+```c
+    int a, b;
+    float r;
+    a = 5;
+    b = 2;
+    r = a / b;
+```
+
+### b) ¿Qué resultado puede esperarse del siguiente fragmento de código?
+
+```c
+    int a, b, c, d;
+    a = 1;
+    b = 2;
+    c = a / b;
+    d = a / c;
+```
+
+### c) ¿Cuál es el resultado del siguiente fragmento de código? Anticipe su respuesta en base a lo dicho en esta unidad y luego confírmela mediante un programa
+
+```c
+    printf("%d\n", 20/3);
+    printf("%f\n", 20/3);
+    printf("%f\n", 20/3.);
+    printf("%d\n", 10%3);
+    printf("%d\n", 3.1416);
+    printf("%f\n", (double)20/3);
+    printf("%f\n", (int)3.1416);
+    printf("%d\n", (int)3.1416);
+```
+
+---
+
+### 11. Escribir un programa que multiplique e imprima 100000 \* 100000
+
+¿De qué tamaño son los ints en su sistema?
+
+---
+
+## 12. Descargue el código ahorcado.c propuesto por la cátedra
+
+### a) Investigar cuál es la función que cumplen las siguientes lineas de código
+
+```c
+    #include <stdio.h>
+    #include <stdlib.h>
+    system ("/bin/stty raw");
+    system ("/bin/stty sane erase ^H");
+```
+
+### b) Complete el código ahorcado.c usando printf() y getchar(), para desarrollar el juego del ahorcado
+
+```c
+#include <stdio.h>
+#include <stdlib.h> /* para las funciones system y exit */
+
+int main() {
+
+ int c;
+
+ /* Decirle al sistema que el modo input es RAW */
+ system ("/bin/stty raw");
+
+ while(1) {
+  printf("\r                                                          ");
+  printf("\r c = %c  ingrese una letra (0 para salir): ", c);
+  c = getchar();
+
+  if (c == '0')
+   break;
+ }
+
+ system ("/bin/stty sane erase ^H");
+}
+```
