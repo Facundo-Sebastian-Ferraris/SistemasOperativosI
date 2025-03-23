@@ -84,7 +84,7 @@ int main() {
 }
 ```
 
-donde `%zu` es un especificador de formato 
+donde `%zu` es un especificador de formato para poder leer el tipo de dato size_t
 
 - **Salida**
 
