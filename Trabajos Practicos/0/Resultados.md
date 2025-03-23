@@ -145,25 +145,39 @@ La instrucción `(a >> bit) & 1` realiza lo siguiente:
         ✅ `&`: Es el operador AND bitwise, que compara los bits menos significativos (ej: `1 & 0 = 0`; `1 & 1 = 1`).
 ```
 
----
+Obteniendo asi, el pasaje a binario.
 
-## 7. Cuáles de entre estas declaraciones contienen errores?
+## 7. Correción de Declaraciones
 
 ```c
-    integer a;
-    short i,j,k;
-    long float (h);
-    double long d3;
-    unsigned float n;
-    char 2j;
-    int MY;
-    float ancho, alto, long;
-    bool i;
+    integer a;                // ❌ Es int, no integer
+    short i,j,k;              // ✅
+    long float (h);           // ❌ No existe long float, para ello se tiene double
+    double long d3;           // ❌ Debe ser long double
+    unsigned float n;         // ❌ unsigned solo es valido para enteros
+    char 2j;                  // ❌ Variables nunca empiezan con numero
+    int MY;                   // ✅
+    float ancho, alto, long;  // ❌ Variables no se deben llamar igual que reservadas
+    bool i;                   // ⚠️ Solo es valido si se importa <stdbool.h>
 ```
 
----
-
 ## 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando el operador `sizeof()`
+
+Implementando el [codigo](./08-Sizes.c) se obtiene la siguiente salida:
+
+```bash
+📏 Tamaños de los tipos básicos en este sistema:
+--------------------------------------------
+🔤 char:        1 bytes
+🔢 short:       2 bytes
+🔢 int:         4 bytes
+🔢 long:        8 bytes
+🔢 long long:   8 bytes
+🎈 float:       4 bytes
+🎈🎈 double:    8 bytes
+🎈🎈🎈 long double:     16 bytes
+--------------------------------------------
+```
 
 ---
 
