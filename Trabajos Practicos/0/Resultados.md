@@ -161,7 +161,7 @@ Obteniendo asi, el pasaje a binario.
     bool i;                   // ⚠️ Solo es valido si se importa <stdbool.h>
 ```
 
-## 8. Averigüe los tamaños de todos los tipos básicos en su sistema aplicando el operador `sizeof()`
+## 8. Tamaño de cada tipo de dato utilizando `sizeof()`
 
 Implementando el [codigo](./08-Sizes.c) se obtiene la siguiente salida:
 
@@ -329,17 +329,32 @@ Obtuvimos resultados distintos en:
   - **Explicación**: pasar un `double` a `%d` hace que `printf` interprete los bits del double (en `formato IEEE 754`) como si fueran un entero, lo que da un valor impredecible.
 
 - `printf("%f\n", (int)3.1416);`: esperamos un `3.0000` y obtuvimos `6.666667`
-  - **Explicación**: similar a lo anterior, `printf` interpreta los bits del int, como si fueran formato `IEEE 754`, generando un valor impredecible.
+  - **Explicación**: similar a lo anterior, `printf` interpreta los bits del int como si fueran formato `IEEE 754`, generando un valor impredecible.
 
-### 11. Escribir un programa que multiplique e imprima 100000 \* 100000
+## 11. Escribir un programa que multiplique e imprima 100000 \* 100000
 
-¿De qué tamaño son los ints en su sistema?
+Como en el [ejericio 8](#8-tamaño-de-cada-tipo-de-dato-utilizando-sizeof) aclaramos el tamaño de cada tipo, `int` tiene **`4 bytes (32 bits)`** en nuestro equipo.
+
+Con este dato podemos deducir el intervalo de valores que `int` puede tomar haciendo:
+$[ -2^{31} ; 2^{31}-1] = [ -2147483648 ; 2147483647]$
+
+Por lo tanto 100000 \* 100000 = $10^{10}$ requiere **`34 bits`** para poder ser representado.
+
+Por lo tanto podemos seleccionar el tipo de dato unsigned long que utiliza **`8 bytes (64 bits)`**.
+
+- Salida en base al [codigo](./11-CuentaGrande.c)
+
+```bash
+unsigned long: 10000000000
+```
+
+Concluimos sobre la importancia de no solo limitarse a trabajar con ints, sino que dado el dominio, considerar si se trabajara con numeros grandes o pequeños.
 
 ---
 
-## 12. Descargue el código ahorcado.c propuesto por la cátedra
+## 12. Ahorcado
 
-### a) Investigar cuál es la función que cumplen las siguientes lineas de código
+### a) 
 
 ```c
     #include <stdio.h>
@@ -347,6 +362,27 @@ Obtuvimos resultados distintos en:
     system ("/bin/stty raw");
     system ("/bin/stty sane erase ^H");
 ```
+
+- **`<stdio.h> (standard I/O)`**: libreria para acciones de entrada y salida de datos.
+  - **Funciones Principales**:
+    - `printf()`: Imprime texto formateado en la salida estándar (pantalla).
+    - `scanf()`: Lee datos formateados desde la entrada estándar (teclado).
+    - `getchar()`, `putchar()`: Lee o escribe un solo carácter.
+    - `gets()`, `puts()`: Lee o escribe cadenas (aunque gets está obsoleto por seguridad).
+    - `fopen()`, `fclose()`, `fread()`, `fwrite()`: Manejo de archivos.
+
+- **`<stdlib.h> (standard library)`**: libreria para manejo de memoria dinamica, conversion de tipos, generacion de numeros aleatorios, y control del programa
+  - **Funciones Principales**:
+    - `malloc()`, `free()`: Reserva y libera memoria dinámica.
+    - `calloc()`, `realloc()`: Otras formas de manejar memoria.
+    - `atoi()`, `atof()`: Convierte cadenas a enteros o flotantes (e.g., "123" → 123).
+    - `rand()`, `srand()`: Genera números aleatorios.
+    - `exit()`: Termina el programa con un código de salida.
+    - `system()`: Ejecuta comandos del sistema operativo.
+
+- **`system ("/bin/stty raw");`**: ejecuta el comando `/bin/stty raw` en la terminal donde:
+
+- **`system ("/bin/stty sane erase ^H");`:**
 
 ### b) Complete el código ahorcado.c usando printf() y getchar(), para desarrollar el juego del ahorcado
 

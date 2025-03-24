@@ -12,6 +12,5 @@ int main() {
     printf("🎈🎈 double:\t%zu bytes\n", sizeof(double));
     printf("🎈🎈🎈 long double:\t%zu bytes\n", sizeof(long double));
     printf("--------------------------------------------\n");
-
     return 0;
 }
