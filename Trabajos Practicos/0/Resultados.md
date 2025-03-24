@@ -272,6 +272,8 @@ Program terminated with signal SIGFPE, Arithmetic exception.
 (gdb) 
 ```
 
+Se puede interpretar que hubo una excepcion arimetica en la linea 8.
+
 >**Nota**:
   Para que se genere el archivo core, se debe compilar el codigo con
   _gcc -g -o 10-b-FloatDivision 10-b-FloatDivision.c_,
@@ -290,7 +292,44 @@ Program terminated with signal SIGFPE, Arithmetic exception.
     printf("%d\n", (int)3.1416);
 ```
 
----
+El resultado podria ser:
+
+```bash
+printf("%d\n", 20/3);         =>  6
+printf("%f\n", 20/3);         =>  6.0000
+printf("%f\n", 20/3.);        =>  6.6667
+printf("%d\n", 10%3);         =>  1
+printf("%d\n", 3.1416);       =>  3
+printf("%f\n", (double)20/3); =>  6.6667 
+printf("%f\n", (int)3.1416);  =>  3.0000
+printf("%d\n", (int)3.1416);  =>  3
+```
+
+Confirmando corriendo el programa:
+
+- Salida
+
+```bash
+6
+0.000000
+6.666667
+1
+441660064
+6.666667
+6.666667
+3
+```
+
+Obtuvimos resultados distintos en:
+
+- `printf("%f\n", 20/3);`: esperamos un `6.0000` y obtuvimos `0.0000`
+  - **Explicación**: pasar un `int` donde se espera un `float`/`double` hace que `printf` interprete los bits del int como si fueran un número flotante en formato `IEEE 754`, lo que resulta en basura.
+
+- `printf("%d\n", 3.1416);`: esperamos un `3` y obtuvimos `441660064`
+  - **Explicación**: pasar un `double` a `%d` hace que `printf` interprete los bits del double (en `formato IEEE 754`) como si fueran un entero, lo que da un valor impredecible.
+
+- `printf("%f\n", (int)3.1416);`: esperamos un `3.0000` y obtuvimos `6.666667`
+  - **Explicación**: similar a lo anterior, `printf` interpreta los bits del int, como si fueran formato `IEEE 754`, generando un valor impredecible.
 
 ### 11. Escribir un programa que multiplique e imprima 100000 \* 100000
 
