@@ -354,7 +354,7 @@ Concluimos sobre la importancia de no solo limitarse a trabajar con ints, sino q
 
 ## 12. Ahorcado
 
-### a) 
+### a) Analisis de librerias y funciones
 
 ```c
     #include <stdio.h>
@@ -381,31 +381,14 @@ Concluimos sobre la importancia de no solo limitarse a trabajar con ints, sino q
     - `system()`: Ejecuta comandos del sistema operativo.
 
 - **`system ("/bin/stty raw");`**: ejecuta el comando `/bin/stty raw` en la terminal donde:
+  - `stty` es un comando de Unix/Linux que ajusta los parámetros de la terminal.
+  - `raw` desactiva el procesamiento de entrada, permitiendo leer cada tecla directamente tal como se presiona.
 
-- **`system ("/bin/stty sane erase ^H");`:**
+- **`system ("/bin/stty sane erase ^H");`**: ejecuta el comando `/bin/stty sane erase ^H` en la terminal donde:
+  - `sane`: restablece la terminal a un estado predeterminado razonable, deshaciendo la configuracion `raw`.
+  - `erase ^H`: Define Ctrl+H `(código ASCII 8, retroceso)` como la tecla de borrado, permitiendo eliminar el carácter anterior.
 
-### b) Complete el código ahorcado.c usando printf() y getchar(), para desarrollar el juego del ahorcado
+### b) Ahorcado
 
-```c
-#include <stdio.h>
-#include <stdlib.h> /* para las funciones system y exit */
-
-int main() {
-
- int c;
-
- /* Decirle al sistema que el modo input es RAW */
- system ("/bin/stty raw");
-
- while(1) {
-  printf("\r                                                          ");
-  printf("\r c = %c  ingrese una letra (0 para salir): ", c);
-  c = getchar();
-
-  if (c == '0')
-   break;
- }
-
- system ("/bin/stty sane erase ^H");
-}
-```
+El codigo se encuentra [aqui](./12-b-Ahorcado.c)
+Y aqui un video a modo de muestra de su funcionamiento [click aqui](https://youtu.be/Zf6NYnO-mAY)
