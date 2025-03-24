@@ -181,15 +181,27 @@ Implementando el [codigo](./08-Sizes.c) se obtiene la siguiente salida:
 
 ---
 
-## 9. Prepare un programa con una variable de tipo char y otra de tipo unsigned char
+## 9. Desbordamiento del signed char vs. unsigned char
 
-Inicialice ambas variables con los valores máximos de cada tipo,
-para comprobar el resultado de incrementarlas en una unidad.
-Imprima los valores de cada variable antes y después del incremento.
+Con el codigo enlazado ([click aqui](./09-Chars.c)), obtenemos la siguiente salida:
 
-#### (Nota: vea la sección "3.2. Tamaños de los objetos de datos" de taller-c.pdf.)
+```bash
+🔵🔴 Comportamiento de desbordamiento (overflow) en chars:
+--------------------------------------------------
+🔵 A (signed char) [127] antes de sumar:         
+🔴 B (unsigned char) [255] antes de sumar:       �
+--------------------------------------------------
+⚠️ ¡Overflow! ⚠️
+🔵 A (signed char) [-128] después de sumar:      �
+🔴 B (unsigned char) [0] después de sumar:       
+--------------------------------------------------
+📝 Explicación:
+🔵 Signed char: Al superar CHAR_MAX, vuelve al valor mínimo que es -128.
+🔴 Unsigned char: Al superar UCHAR_MAX, vuelve al valor minimo que es 0.
+```
 
----
+Podemos concluir que ante cualquier desbordamiento se vuelve al otro valor extremo del rango.
+
 
 ## 10. (utilice como soporte la sección "3.3. Operaciones con distintos tipos" del PDF taller-c.pdf)
 
