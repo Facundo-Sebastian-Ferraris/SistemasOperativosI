@@ -5,7 +5,7 @@ int main() {
     float r;
     a = 5;
     b = 2;
-    r = a / b;
-    printf("r = %d", r);
+    r = (float)a / (double)b;
+    printf("r = %f\n", r);
     return 0;
 }
