@@ -1,5 +1,7 @@
 # 🖥️ Sistemas Operativos I - Trabajo Práctico 0 📚
 
+(Respuestas [aqui](./Resultados.md)) 🚀✨
+
 ## 📖 Bibliografía
 
 - **Brian Kernighan y Dennis Ritchie**, _El lenguaje de programación C_ 📘  
