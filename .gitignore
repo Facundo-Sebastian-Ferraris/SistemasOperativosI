@@ -46,3 +46,5 @@
 .DS_Store
 Thumbs.db
 
+# Ignorar toda la carpeta compile/
+./xinu-pc/compile/*compile/
