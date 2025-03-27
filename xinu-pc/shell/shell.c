@@ -7,10 +7,9 @@
 /************************************************************************/
 /* Table of Xinu shell commands and the function associated with each	*/
 /************************************************************************/
-extern const	struct	cmdent	cmdtab[];
+extern const struct cmdent cmdtab[];
 
-extern uint32	ncmd;
-
+extern uint32 ncmd;
 
 /************************************************************************/
 /* shell  -  Provide an interactive user interface that executes	*/
@@ -29,54 +28,55 @@ extern uint32	ncmd;
 /*									*/
 /************************************************************************/
 
-process	shell (
-		did32	dev		/* ID of tty device from which	*/
-	)				/*   to accept commands		*/
+process shell(
+	did32 dev /* ID of tty device from which	*/
+	)		  /*   to accept commands		*/
 {
-	char	buf[SHELL_BUFLEN];	/* Input line (large enough for	*/
-					/*   one line from a tty device	*/
-	int32	len;			/* Length of line read		*/
-	char	tokbuf[SHELL_BUFLEN +	/* Buffer to hold a set of	*/
-			SHELL_MAXTOK];  /* Contiguous null-terminated	*/
-					/* Strings of tokens		*/
-	int32	tlen;			/* Current length of all data	*/
-					/*   in array tokbuf		*/
-	int32	tok[SHELL_MAXTOK];	/* Index of each token in	*/
-					/*   array tokbuf		*/
-	int32	toktyp[SHELL_MAXTOK];	/* Type of each token in tokbuf	*/
-	int32	ntok;			/* Number of tokens on line	*/
-	pid32	child;			/* Process ID of spawned child	*/
-	bool8	backgnd;		/* Run command in background?	*/
-	char	*outname, *inname;	/* Pointers to strings for file	*/
-					/*   names that follow > and <	*/
-	did32	stdinput, stdoutput;	/* Descriptors for redirected	*/
-					/*   input and output		*/
-	int32	i;			/* Index into array of tokens	*/
-	int32	j;			/* Index into array of commands	*/
-	int32	msg;			/* Message from receive() for	*/
-					/*   child termination		*/
-	int32	tmparg;			/* Address of this var is used	*/
-					/*   when first creating child	*/
-					/*   process, but is replaced	*/
-	char	*src, *cmp;		/* Pointers used during name	*/
-					/*   comparison			*/
-	bool8	diff;			/* Was difference found during	*/
-					/*   comparison			*/
-	char	*args[SHELL_MAXTOK];	/* Argument vector passed to	*/
-					/*   builtin commands		*/
+	char buf[SHELL_BUFLEN]; /* Input line (large enough for	*/
+	/*   one line from a tty device	*/
+	int32 len;				   /* Length of line read		*/
+	char tokbuf[SHELL_BUFLEN + /* Buffer to hold a set of	*/
+				SHELL_MAXTOK]; /* Contiguous null-terminated	*/
+	/* Strings of tokens		*/
+	int32 tlen; /* Current length of all data	*/
+	/*   in array tokbuf		*/
+	int32 tok[SHELL_MAXTOK]; /* Index of each token in	*/
+	/*   array tokbuf		*/
+	int32 toktyp[SHELL_MAXTOK]; /* Type of each token in tokbuf	*/
+	int32 ntok;					/* Number of tokens on line	*/
+	pid32 child;				/* Process ID of spawned child	*/
+	bool8 backgnd;				/* Run command in background?	*/
+	char *outname, *inname;		/* Pointers to strings for file	*/
+	/*   names that follow > and <	*/
+	did32 stdinput, stdoutput; /* Descriptors for redirected	*/
+	/*   input and output		*/
+	int32 i;   /* Index into array of tokens	*/
+	int32 j;   /* Index into array of commands	*/
+	int32 msg; /* Message from receive() for	*/
+	/*   child termination		*/
+	int32 tmparg; /* Address of this var is used	*/
+	/*   when first creating child	*/
+	/*   process, but is replaced	*/
+	char *src, *cmp; /* Pointers used during name	*/
+	/*   comparison			*/
+	bool8 diff; /* Was difference found during	*/
+	/*   comparison			*/
+	char *args[SHELL_MAXTOK]; /* Argument vector passed to	*/
+	/*   builtin commands		*/
 
 	/* Print shell banner and startup message */
 
 	fprintf(dev, "\n\n%s%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
-		SHELL_BAN0,SHELL_BAN1,SHELL_BAN2,SHELL_BAN3,SHELL_BAN4,
-		SHELL_BAN5,SHELL_BAN6,SHELL_BAN7,SHELL_BAN8,SHELL_BAN9);
+			SHELL_BAN0, SHELL_BAN1, SHELL_BAN2, SHELL_BAN3, SHELL_BAN4,
+			SHELL_BAN5, SHELL_BAN6, SHELL_BAN7, SHELL_BAN8, SHELL_BAN9);
 
 	fprintf(dev, "%s\n\n", SHELL_STRTMSG);
-	fprintf(dev, "type   help [ENTER]   for ehhhh... help.\n\n");
+	fprintf(dev, "\033[32;1mtipea   help [ENTER]   para recibir ayuda.\n\n");
 
 	/* Continually prompt the user, read input, and execute command	*/
 
-	while (TRUE) {
+	while (TRUE)
+	{
 
 		/* Display prompt */
 
@@ -88,17 +88,19 @@ process	shell (
 
 		/* Exit gracefully on end-of-file */
 
-		if (len == EOF) {
+		if (len == EOF)
+		{
 			break;
 		}
 
 		/* If line contains only NEWLINE, go to next line */
 
-		if (len <= 1) {
+		if (len <= 1)
+		{
 			continue;
 		}
 
-		buf[len] = SH_NEWLINE;	/* terminate line */
+		buf[len] = SH_NEWLINE; /* terminate line */
 
 		/* Parse input line and divide into tokens */
 
@@ -106,66 +108,79 @@ process	shell (
 
 		/* Handle parsing error */
 
-		if (ntok == SYSERR) {
-			fprintf(dev,"%s\n", SHELL_SYNERRMSG);
+		if (ntok == SYSERR)
+		{
+			fprintf(dev, "%s\n", SHELL_SYNERRMSG);
 			continue;
 		}
 
 		/* If line is empty, go to next input line */
 
-		if (ntok == 0) {
+		if (ntok == 0)
+		{
 			fprintf(dev, "\n");
 			continue;
 		}
 
 		/* If last token is '&', set background */
 
-		if (toktyp[ntok-1] == SH_TOK_AMPER) {
-			ntok-- ;
-			tlen-= 2;
+		if (toktyp[ntok - 1] == SH_TOK_AMPER)
+		{
+			ntok--;
+			tlen -= 2;
 			backgnd = TRUE;
-		} else {
+		}
+		else
+		{
 			backgnd = FALSE;
 		}
-
 
 		/* Check for input/output redirection (default is none) */
 
 		outname = inname = NULL;
-		if ( (ntok >=3) && ( (toktyp[ntok-2] == SH_TOK_LESS)
-				   ||(toktyp[ntok-2] == SH_TOK_GREATER))){
-			if (toktyp[ntok-1] != SH_TOK_OTHER) {
-				fprintf(dev,"%s\n", SHELL_SYNERRMSG);
+		if ((ntok >= 3) && ((toktyp[ntok - 2] == SH_TOK_LESS) || (toktyp[ntok - 2] == SH_TOK_GREATER)))
+		{
+			if (toktyp[ntok - 1] != SH_TOK_OTHER)
+			{
+				fprintf(dev, "%s\n", SHELL_SYNERRMSG);
 				continue;
 			}
-			if (toktyp[ntok-2] == SH_TOK_LESS) {
-				inname =  &tokbuf[tok[ntok-1]];
-			} else {
-				outname = &tokbuf[tok[ntok-1]];
+			if (toktyp[ntok - 2] == SH_TOK_LESS)
+			{
+				inname = &tokbuf[tok[ntok - 1]];
+			}
+			else
+			{
+				outname = &tokbuf[tok[ntok - 1]];
 			}
 			ntok -= 2;
 			tlen = tok[ntok];
 		}
 
-
-		if ( (ntok >=3) && ( (toktyp[ntok-2] == SH_TOK_LESS)
-				   ||(toktyp[ntok-2] == SH_TOK_GREATER))){
-			if (toktyp[ntok-1] != SH_TOK_OTHER) {
-				fprintf(dev,"%s\n", SHELL_SYNERRMSG);
+		if ((ntok >= 3) && ((toktyp[ntok - 2] == SH_TOK_LESS) || (toktyp[ntok - 2] == SH_TOK_GREATER)))
+		{
+			if (toktyp[ntok - 1] != SH_TOK_OTHER)
+			{
+				fprintf(dev, "%s\n", SHELL_SYNERRMSG);
 				continue;
 			}
-			if (toktyp[ntok-2] == SH_TOK_LESS) {
-				if (inname != NULL) {
-				    fprintf(dev,"%s\n", SHELL_SYNERRMSG);
-				    continue;
+			if (toktyp[ntok - 2] == SH_TOK_LESS)
+			{
+				if (inname != NULL)
+				{
+					fprintf(dev, "%s\n", SHELL_SYNERRMSG);
+					continue;
 				}
-				inname = &tokbuf[tok[ntok-1]];
-			} else {
-				if (outname != NULL) {
-				    fprintf(dev,"%s\n", SHELL_SYNERRMSG);
-				    continue;
+				inname = &tokbuf[tok[ntok - 1]];
+			}
+			else
+			{
+				if (outname != NULL)
+				{
+					fprintf(dev, "%s\n", SHELL_SYNERRMSG);
+					continue;
 				}
-				outname = &tokbuf[tok[ntok-1]];
+				outname = &tokbuf[tok[ntok - 1]];
 			}
 			ntok -= 2;
 			tlen = tok[ntok];
@@ -173,12 +188,15 @@ process	shell (
 
 		/* Verify remaining tokens are type "other" */
 
-		for (i=0; i<ntok; i++) {
-			if (toktyp[i] != SH_TOK_OTHER) {
+		for (i = 0; i < ntok; i++)
+		{
+			if (toktyp[i] != SH_TOK_OTHER)
+			{
 				break;
 			}
 		}
-		if ((ntok == 0) || (i < ntok)) {
+		if ((ntok == 0) || (i < ntok))
+		{
 			fprintf(dev, SHELL_SYNERRMSG);
 			continue;
 		}
@@ -187,49 +205,61 @@ process	shell (
 
 		/* Lookup first token in the command table */
 
-		for (j = 0; j < ncmd; j++) {
+		for (j = 0; j < ncmd; j++)
+		{
 			src = cmdtab[j].cname;
 			cmp = tokbuf;
 			diff = FALSE;
-			while (*src != NULLCH) {
-				if (*cmp != *src) {
+			while (*src != NULLCH)
+			{
+				if (*cmp != *src)
+				{
 					diff = TRUE;
 					break;
 				}
 				src++;
 				cmp++;
 			}
-			if (diff || (*cmp != NULLCH)) {
+			if (diff || (*cmp != NULLCH))
+			{
 				continue;
-			} else {
+			}
+			else
+			{
 				break;
 			}
 		}
 
 		/* Handle command not found */
 
-		if (j >= ncmd) {
+		if (j >= ncmd)
+		{
 			fprintf(dev, "command %s not found\n", tokbuf);
 			continue;
 		}
 
 		/* Handle built-in command */
 
-		if (cmdtab[j].cbuiltin) { /* No background or redirect. */
-			if (inname != NULL || outname != NULL || backgnd){
+		if (cmdtab[j].cbuiltin)
+		{ /* No background or redirect. */
+			if (inname != NULL || outname != NULL || backgnd)
+			{
 				fprintf(dev, SHELL_BGERRMSG);
 				continue;
-			} else {
+			}
+			else
+			{
 				/* Set up arg vector for call */
 
-				for (i=0; i<ntok; i++) {
+				for (i = 0; i < ntok; i++)
+				{
 					args[i] = &tokbuf[tok[i]];
 				}
 
 				/* Call builtin shell function */
 
-				if ((*cmdtab[j].cfunc)(ntok, args)
-							== SHELL_EXIT) {
+				if ((*cmdtab[j].cfunc)(ntok, args) == SHELL_EXIT)
+				{
 					break;
 				}
 			}
@@ -238,19 +268,25 @@ process	shell (
 
 		/* Open files and redirect I/O if specified */
 
-		if (inname != NULL) {
-			stdinput = open(NAMESPACE,inname,"ro");
-			if (stdinput == SYSERR) {
+		if (inname != NULL)
+		{
+			stdinput = open(NAMESPACE, inname, "ro");
+			if (stdinput == SYSERR)
+			{
 				fprintf(dev, SHELL_INERRMSG, inname);
 				continue;
 			}
 		}
-		if (outname != NULL) {
-			stdoutput = open(NAMESPACE,outname,"w");
-			if (stdoutput == SYSERR) {
+		if (outname != NULL)
+		{
+			stdoutput = open(NAMESPACE, outname, "w");
+			if (stdoutput == SYSERR)
+			{
 				fprintf(dev, SHELL_OUTERRMSG, outname);
 				continue;
-			} else {
+			}
+			else
+			{
 				control(stdoutput, F_CTL_TRUNC, 0, 0);
 			}
 		}
@@ -258,14 +294,14 @@ process	shell (
 		/* Spawn child thread for non-built-in commands */
 
 		child = create(cmdtab[j].cfunc,
-			SHELL_CMDSTK, SHELL_CMDPRIO,
-			cmdtab[j].cname, 2, ntok, &tmparg);
+					   SHELL_CMDSTK, SHELL_CMDPRIO,
+					   cmdtab[j].cname, 2, ntok, &tmparg);
 
 		/* If creation or argument copy fails, report error */
 
 		if ((child == SYSERR) ||
-		    (addargs(child, ntok, tok, tlen, tokbuf, &tmparg)
-							== SYSERR) ) {
+			(addargs(child, ntok, tok, tlen, tokbuf, &tmparg) == SYSERR))
+		{
 			fprintf(dev, SHELL_CREATMSG);
 			continue;
 		}
@@ -277,16 +313,18 @@ process	shell (
 
 		msg = recvclr();
 		resume(child);
-		if (! backgnd) {
+		if (!backgnd)
+		{
 			msg = receive();
-			while (msg != child) {
+			while (msg != child)
+			{
 				msg = receive();
 			}
 		}
-    }
+	}
 
-    /* Terminate the shell process by returning from the top level */
+	/* Terminate the shell process by returning from the top level */
 
-    fprintf(dev,SHELL_EXITMSG);
-    return OK;
+	fprintf(dev, SHELL_EXITMSG);
+	return OK;
 }
