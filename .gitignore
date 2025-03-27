@@ -47,4 +47,4 @@
 Thumbs.db
 
 # Ignorar toda la carpeta compile/
-./xinu-pc/compile/*compile/
+compile
