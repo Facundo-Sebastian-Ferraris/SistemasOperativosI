@@ -9,7 +9,7 @@ extern print_text_on_vga2(unsigned int x, unsigned int y, const char *t);
 process main(void)
 {
 
-	paint_screen_degrade(COLOR_AZUL);
+	paint_screen_degrade(ARGB(255,0,0,50));
 
 	printWallpaper();
 	recvclr();

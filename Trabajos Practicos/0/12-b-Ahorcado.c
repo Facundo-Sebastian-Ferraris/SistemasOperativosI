@@ -2,21 +2,30 @@
 #include <stdlib.h> /* para las funciones system y exit */
 
 // Prototipos
-char *guiones(int veces); // guiones(5) => "-----"
+void llenarConGuiones(char palabra[]); // guiones(5) => "-----"
 int develar(char *secreto, char *palabra, char ingresado);
 int sonIguales(char *A, char *B);
 
 int main() {
-    char PALABRA[] = "hipopotomonstrosesquipedaliofobia";
+    char PALABRA[] = "pantera";
     int PALABRA_largo = sizeof(PALABRA) - 1;
-    char *SECRETO = guiones(PALABRA_largo);
+    char SECRETO[PALABRA_largo+1];
+    int i = 0;
+
+    while (i<PALABRA_largo)
+    {
+        SECRETO[i]='-';
+        i++;
+    }
+
+    printf("%d \t %s \n\n", sizeof(SECRETO), SECRETO);
     int vidas = 5;
     int c;
     /* Decirle al sistema que el modo input es RAW */
     system("/bin/stty raw");
     system("clear");
-    printf("\033[2K\033[A\033[2K\033[A\033[2K\033[A\033[2K");
-    printf("\t\tAHORCADO 📿\t\t\n\n");
+    printf("\033[2K");
+    printf("\t\t\033[31mA\033[33mH\033[32mO\033[36mR\033[34mC\033[35mA\033[31mD\033[33mO\033[0m 📿\t\t\n\n");
     while (1) {
 
         printf("\r ✏️   %s\t", SECRETO);
@@ -52,46 +61,33 @@ int main() {
     }
     system("/bin/stty sane erase ^H");
     system("clear");
+    return 0;
 }
 
-int sonIguales(char *A, char *B) {
-    while (*A && *B &&
-           *A == *B) { // Mientras ninguno sea '\0' y ambos sean iguales
-        A++;
-        B++;
+int sonIguales(char A[], char B[]){
+    int i = 0;
+    while (A[i]!='\0' && B[i]!='\0' && A[i]==B[i])
+    {
+        i++;
     }
-    return *A == *B; // Ultima Verificacion
+    return A[i]==B[i];
 }
 
-int develar(char *secreto, char *palabra, char ingresado) {
+int develar(char secreto[], char palabra[], char ingresado) {
     int r = 0;
-    while (*secreto != '\0') {
-        if (ingresado == *palabra) {
+    int i = 0;
+    while (secreto[i] != '\0') {
+        if (ingresado == palabra[i]) {
             if (r == 0) {
                 r = 1;
             }
-            *secreto = ingresado;
+            secreto[i] = ingresado;
         }
-        *palabra++;
-        *secreto++;
+        i++;
     }
     return r;
 }
 
-char *guiones(int veces) {
-    char *r = (char *)malloc(veces + 1);
-    if (r == NULL) { // Verifica fallo de malloc
-        return NULL;
-    }
-
-    // Llena con guiones
-    for (int i = 0; i < veces; i++) {
-        r[i] = '-';
-    }
-    r[veces] = '\0'; // Agrega el terminador nulo
-
-    return r;
-}
 
 // AYUDA:
 //  #include <stdio.h>

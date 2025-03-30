@@ -27,7 +27,7 @@ void kbdhandler(void)
 	int i = 10;
 
 	scancode = get_scancode();
-	sprintf(t, "kbd: 0x%x     ", scancode);
+	sprintf(t, "ENTRADA DE TECLADO  kbd: 0x%x     ", scancode);
 	print_text_on_vga(10, 300, t);
 
 	if(scancode == 0x2A) {

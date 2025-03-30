@@ -58,24 +58,26 @@ void paint_screen()
 	close(VGA);
 }
 
-void paint_screen_degrade(uint32 color)
+void paint_screen_degrade(uint32_t color)
 {
-	uint8_t r_base = GET_R(color);
-	uint8_t g_base = GET_G(color);
-	uint8_t b_base = GET_B(color);
+    uint8_t r_target = GET_R(color);
+    uint8_t g_target = GET_G(color);
+    uint8_t b_target = GET_B(color);
 
-	int i, j, x, y;
-	open(VGA, NULL, 0);
-	for (y = 0; y < VGA_HEIGHT; y++)
-	{
-		uint8_t r = (r_base * (VGA_HEIGHT - y)) / VGA_HEIGHT;
-		uint8_t g = (g_base * (VGA_HEIGHT - y)) / VGA_HEIGHT;
-		uint8_t b = (b_base * (VGA_HEIGHT - y)) / VGA_HEIGHT;
-		for (x = 0; x < VGA_WIDTH; x++)
-		{
-			pixel(x, y, ARGB(255, r, g, b));
-		}
-		sleepms(1);
-	}
-	close(VGA);
+    int x, y;
+    open(VGA, NULL, 0);
+    for (y = 0; y < VGA_HEIGHT; y++)
+    {
+        // Calcular la interpolación lineal desde negro (0,0,0) hasta el color objetivo
+        uint8_t r = (r_target * y) / VGA_HEIGHT;
+        uint8_t g = (g_target * y) / VGA_HEIGHT;
+        uint8_t b = (b_target * y) / VGA_HEIGHT;
+        
+        for (x = 0; x < VGA_WIDTH; x++)
+        {
+            pixel(x, y, ARGB(255, r, g, b));
+        }
+        sleepms(1);
+    }
+    close(VGA);
 }
