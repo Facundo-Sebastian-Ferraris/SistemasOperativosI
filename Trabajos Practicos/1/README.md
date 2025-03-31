@@ -1,4 +1,4 @@
-# 🚀 **Práctica de Sistemas Operativos: Trabajando con Xinu**  
+# 🚀 **Trabajo Practico 1: Trabajando con Xinu**  
 
 ## **📌 Objetivos**  
 - ✏️ Modificar, compilar y testear el sistema operativo **Xinu**.  
