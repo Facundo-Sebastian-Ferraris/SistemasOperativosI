@@ -17,7 +17,7 @@
 
 ---
 
-## **📋 Ejercicio 1: Primeros Pasos con Xinu**  
+## [**📋 Ejercicio 1: Primeros Pasos con Xinu** ](./Respuestas.md#1-primeros-pasos-con-xinu) 
 
 ### **📥 Descarga y Compilación**  
 
@@ -42,10 +42,10 @@ CTRL + ALT + 3
 
 ### **❓ Preguntas**  
 
-1. **¿Qué componentes trae esta versión de Xinu?**  
-2. **¿Qué periféricos de PC son accesibles desde QEMU?**  
-3. **¿Cómo se accede al puerto serie en QEMU para usar el shell?**  
-4. **¿Cuántos procesos hay en ejecución? ¿Cómo lo obtuvo?**  
+1. [**¿Qué componentes trae esta versión de Xinu?**](./Respuestas.md#-componentes-principales-del-sistema-xinu)  
+2. [**¿Qué periféricos de PC son accesibles desde QEMU?**](./Respuestas.md#️-periféricos-soportados)  
+3. [**¿Cómo se accede al puerto serie en QEMU para usar el shell?**](./Respuestas.md#acceso-al-puerto-serial-de-xinu-️)
+4. [**¿Cuántos procesos hay en ejecución? ¿Cómo lo obtuvo?**](./Respuestas.md#visualización-de-procesos-)  
 
 ---
 
