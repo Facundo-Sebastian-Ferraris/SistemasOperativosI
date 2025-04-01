@@ -62,7 +62,7 @@ QEMU ofrece la opcion de mostrar las pestañas de secciones, entre ellas esta `s
 
 ---
 
-### **1. ¿Cuántos procesos hay en ejecución? ¿Cómo lo obtuvo?**
+### **Visualizacion de Procesos**
 
 Para visualizar los procesos en ejecucion existe el comando ps (Proccess Status), el cual muestra una lista de todos los procesos activos, sus IDs, estados, prioridades y otros detalles. En este caso obtuvimos lo siguiente:
 
