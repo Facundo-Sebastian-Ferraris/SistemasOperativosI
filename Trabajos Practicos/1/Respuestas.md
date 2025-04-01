@@ -56,15 +56,17 @@ Basándonos en el [árbol de archivos de XINU](./XinuTree.txt), podemos encontra
 
 ---
 
-### **Acceso al puerto serial de XINU**
+### **Acceso al puerto serial de XINU** 🖥️🔌  
 
-QEMU ofrece la opcion de mostrar las pestañas de secciones, entre ellas esta `serial0` que haciendo click, o haciendo `ctrl + alt + 3`, podremos acceder al shell del sistema.
+QEMU ofrece la opción de mostrar las pestañas de secciones, entre ellas está `serial0`. Haciendo clic en ella o usando `Ctrl + Alt + 3`, podrás acceder al **shell del sistema**.  
 
----
+---  
 
-### **Visualizacion de Procesos**
+### **Visualización de Procesos** 📊👀  
 
-Para visualizar los procesos en ejecucion existe el comando ps (Proccess Status), el cual muestra una lista de todos los procesos activos, sus IDs, estados, prioridades y otros detalles. En este caso obtuvimos lo siguiente:
+Para ver los procesos en ejecución, usa el comando `ps` (*Process Status*). Este muestra una lista de todos los procesos activos, incluyendo sus **IDs, estados, prioridades** y más detalles.  
+
+🔹 **Ejemplo de salida:**
 
 ```bash
 Pid Name             State Prio Ppid Stack Base Stack Ptr  Stack Size
@@ -77,9 +79,7 @@ Pid Name             State Prio Ppid Stack Base Stack Ptr  Stack Size
 
 ```
 
-A continuacion, vamos a analizar la salida para entender qué está pasando:  
-
-### **🔍 Explicación clave:**
+#### **🔍 Explicación clave del resultado anterior:**
 
 1. **PID (Process ID)**: Identificador único del proceso.  
    - `0` (`prnull`): Proceso especial (nulo/inactivo).  
@@ -106,7 +106,7 @@ A continuacion, vamos a analizar la salida para entender qué está pasando:
 
 ---
 
-### **🚀 ¿Qué podemos concluir?**  
+#### **🚀 ¿Qué podemos concluir?**  
 
 - El **`shell`** (PID `4`) es el proceso interactivo que usas para ejecutar comandos.  
 - El **`Main process`** (PID `3`) parece ser el núcleo del sistema, esperando eventos.  
@@ -115,7 +115,7 @@ A continuacion, vamos a analizar la salida para entender qué está pasando:
 
 ---
 
-### **💡 Comandos útiles para profundizar:**  
+#### **💡 Comandos útiles para profundizar:**  
 
 - **`kill <PID>`**: Terminar un proceso (ejemplo: `kill 1` para cerrar `rdsproc`).  
 - **`memstat`**: Ver uso de memoria (si hay fugas en procesos).  
