@@ -6,7 +6,7 @@ _Alumno:_ [Facundo Ferraris [FAI-3810]](https://github.com/Facundo-Sebastian-Fer
 
 ### **🔧 Componentes principales del sistema Xinu:**
 
-Bas[andonos en el [árbol de archivos de XINU](./XinuTree.txt), podemos encontrar:
+Basándonos en el [árbol de archivos de XINU](./XinuTree.txt), podemos encontrar:
 
 1. **⚙️ Núcleo (Kernel)**  
    - 🏗️ Gestión de procesos (`create.c`, `kill.c`).  
