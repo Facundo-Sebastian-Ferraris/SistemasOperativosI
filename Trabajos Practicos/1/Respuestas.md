@@ -1,8 +1,8 @@
-# Resultados TP 1 🖥️✨
+# [**Resultados TP 1 🖥️✨**](./README.md#-trabajo-practico-1-trabajando-con-xinu)
 
 _Alumno:_ [Facundo Ferraris [FAI-3810]](https://github.com/Facundo-Sebastian-Ferraris/SistemasOperativosI)
 
-## 1. Primeros pasos con XINU
+## [**1. Primeros pasos con XINU**](./README.md#-ejercicio-1-primeros-pasos-con-xinu)
 
 ### **🔧 Componentes principales del sistema Xinu:**
 
