@@ -1,0 +1,630 @@
+📦xinu-pc
+ ┣ 📂compile
+ ┃ ┣ 📂bin
+ ┃ ┃ ┣ 📜build-make
+ ┃ ┃ ┗ 📜mkvers
+ ┃ ┣ 📂binaries
+ ┃ ┃ ┣ 📜82545EMInit.o
+ ┃ ┃ ┣ 📜abs.o
+ ┃ ┃ ┣ 📜addargs.o
+ ┃ ┃ ┣ 📜arp.o
+ ┃ ┃ ┣ 📜ascdate.o
+ ┃ ┃ ┣ 📜atoi.o
+ ┃ ┃ ┣ 📜atol.o
+ ┃ ┃ ┣ 📜bufinit.o
+ ┃ ┃ ┣ 📜bzero.o
+ ┃ ┃ ┣ 📜chprio.o
+ ┃ ┃ ┣ 📜clkdisp.o
+ ┃ ┃ ┣ 📜clkhandler.o
+ ┃ ┃ ┣ 📜clkinit.o
+ ┃ ┃ ┣ 📜close.o
+ ┃ ┃ ┣ 📜cmdtab.o
+ ┃ ┃ ┣ 📜conf.o
+ ┃ ┃ ┣ 📜control.o
+ ┃ ┃ ┣ 📜create.o
+ ┃ ┃ ┣ 📜ctxsw.o
+ ┃ ┃ ┣ 📜ctype_.o
+ ┃ ┃ ┣ 📜dhcp.o
+ ┃ ┃ ┣ 📜dns.o
+ ┃ ┃ ┣ 📜doprnt.o
+ ┃ ┃ ┣ 📜doscan.o
+ ┃ ┃ ┣ 📜dot2ip.o
+ ┃ ┃ ┣ 📜ethcontrol.o
+ ┃ ┃ ┣ 📜ethdispatch.o
+ ┃ ┃ ┣ 📜ethhandler.o
+ ┃ ┃ ┣ 📜ethinit.o
+ ┃ ┃ ┣ 📜ethread.o
+ ┃ ┃ ┣ 📜ethwrite.o
+ ┃ ┃ ┣ 📜evec.o
+ ┃ ┃ ┣ 📜exit.o
+ ┃ ┃ ┣ 📜fdoprnt.o
+ ┃ ┃ ┣ 📜fgetc.o
+ ┃ ┃ ┣ 📜fgets.o
+ ┃ ┃ ┣ 📜fprintf.o
+ ┃ ┃ ┣ 📜fputc.o
+ ┃ ┃ ┣ 📜fputs.o
+ ┃ ┃ ┣ 📜freebuf.o
+ ┃ ┃ ┣ 📜freemem.o
+ ┃ ┃ ┣ 📜fscanf.o
+ ┃ ┃ ┣ 📜getbuf.o
+ ┃ ┃ ┣ 📜getc.o
+ ┃ ┃ ┣ 📜getchar.o
+ ┃ ┃ ┣ 📜getdev.o
+ ┃ ┃ ┣ 📜getitem.o
+ ┃ ┃ ┣ 📜getmem.o
+ ┃ ┃ ┣ 📜getpid.o
+ ┃ ┃ ┣ 📜getprio.o
+ ┃ ┃ ┣ 📜getstk.o
+ ┃ ┃ ┣ 📜getticks.o
+ ┃ ┃ ┣ 📜gettime.o
+ ┃ ┃ ┣ 📜getutime.o
+ ┃ ┃ ┣ 📜hexdump.o
+ ┃ ┃ ┣ 📜i386.o
+ ┃ ┃ ┣ 📜icmp.o
+ ┃ ┃ ┣ 📜init.o
+ ┃ ┃ ┣ 📜initialize.o
+ ┃ ┃ ┣ 📜insert.o
+ ┃ ┃ ┣ 📜insertd.o
+ ┃ ┃ ┣ 📜intr.o
+ ┃ ┃ ┣ 📜ioerr.o
+ ┃ ┃ ┣ 📜ionull.o
+ ┃ ┃ ┣ 📜ip.o
+ ┃ ┃ ┣ 📜kbdclose.o
+ ┃ ┃ ┣ 📜kbddispatch.o
+ ┃ ┃ ┣ 📜kbdhandler.o
+ ┃ ┃ ┣ 📜kbdinit.o
+ ┃ ┃ ┣ 📜kbdopen.o
+ ┃ ┃ ┣ 📜kbdread.o
+ ┃ ┃ ┣ 📜kbdwrite.o
+ ┃ ┃ ┣ 📜kill.o
+ ┃ ┃ ┣ 📜kprintf.o
+ ┃ ┃ ┣ 📜labs.o
+ ┃ ┃ ┣ 📜lexan.o
+ ┃ ┃ ┣ 📜lfdballoc.o
+ ┃ ┃ ┣ 📜lfdbfree.o
+ ┃ ┃ ┣ 📜lfflush.o
+ ┃ ┃ ┣ 📜lfgetmode.o
+ ┃ ┃ ┣ 📜lfiballoc.o
+ ┃ ┃ ┣ 📜lfibclear.o
+ ┃ ┃ ┣ 📜lfibget.o
+ ┃ ┃ ┣ 📜lfibput.o
+ ┃ ┃ ┣ 📜lflclose.o
+ ┃ ┃ ┣ 📜lflcontrol.o
+ ┃ ┃ ┣ 📜lflgetc.o
+ ┃ ┃ ┣ 📜lflinit.o
+ ┃ ┃ ┣ 📜lflputc.o
+ ┃ ┃ ┣ 📜lflread.o
+ ┃ ┃ ┣ 📜lflseek.o
+ ┃ ┃ ┣ 📜lflwrite.o
+ ┃ ┃ ┣ 📜lfscheck.o
+ ┃ ┃ ┣ 📜lfsckfmt.o
+ ┃ ┃ ┣ 📜lfscreate.o
+ ┃ ┃ ┣ 📜lfsetup.o
+ ┃ ┃ ┣ 📜lfsinit.o
+ ┃ ┃ ┣ 📜lfsopen.o
+ ┃ ┃ ┣ 📜lftruncate.o
+ ┃ ┃ ┣ 📜main.o
+ ┃ ┃ ┣ 📜mark.o
+ ┃ ┃ ┣ 📜memchr.o
+ ┃ ┃ ┣ 📜memcmp.o
+ ┃ ┃ ┣ 📜memcpy.o
+ ┃ ┃ ┣ 📜meminit.o
+ ┃ ┃ ┣ 📜memset.o
+ ┃ ┃ ┣ 📜miceclose.o
+ ┃ ┃ ┣ 📜micedispatch.o
+ ┃ ┃ ┣ 📜micehandler.o
+ ┃ ┃ ┣ 📜miceinit.o
+ ┃ ┃ ┣ 📜miceopen.o
+ ┃ ┃ ┣ 📜miceread.o
+ ┃ ┃ ┣ 📜miceutils.o
+ ┃ ┃ ┣ 📜micewrite.o
+ ┃ ┃ ┣ 📜mkbufpool.o
+ ┃ ┃ ┣ 📜mount.o
+ ┃ ┃ ┣ 📜mouse.o
+ ┃ ┃ ┣ 📜naminit.o
+ ┃ ┃ ┣ 📜nammap.o
+ ┃ ┃ ┣ 📜namopen.o
+ ┃ ┃ ┣ 📜net.o
+ ┃ ┃ ┣ 📜newqueue.o
+ ┃ ┃ ┣ 📜open.o
+ ┃ ┃ ┣ 📜panic.o
+ ┃ ┃ ┣ 📜pci.o
+ ┃ ┃ ┣ 📜pdump.o
+ ┃ ┃ ┣ 📜printf.o
+ ┃ ┃ ┣ 📜ptclear.o
+ ┃ ┃ ┣ 📜ptcount.o
+ ┃ ┃ ┣ 📜ptcreate.o
+ ┃ ┃ ┣ 📜ptdelete.o
+ ┃ ┃ ┣ 📜ptinit.o
+ ┃ ┃ ┣ 📜ptrecv.o
+ ┃ ┃ ┣ 📜ptreset.o
+ ┃ ┃ ┣ 📜ptsend.o
+ ┃ ┃ ┣ 📜putc.o
+ ┃ ┃ ┣ 📜putchar.o
+ ┃ ┃ ┣ 📜qsort.o
+ ┃ ┃ ┣ 📜queue.o
+ ┃ ┃ ┣ 📜ramclose.o
+ ┃ ┃ ┣ 📜raminit.o
+ ┃ ┃ ┣ 📜ramopen.o
+ ┃ ┃ ┣ 📜ramread.o
+ ┃ ┃ ┣ 📜ramwrite.o
+ ┃ ┃ ┣ 📜rand.o
+ ┃ ┃ ┣ 📜rdsbufalloc.o
+ ┃ ┃ ┣ 📜rdsclose.o
+ ┃ ┃ ┣ 📜rdscomm.o
+ ┃ ┃ ┣ 📜rdscontrol.o
+ ┃ ┃ ┣ 📜rdsinit.o
+ ┃ ┃ ┣ 📜rdsopen.o
+ ┃ ┃ ┣ 📜rdsprocess.o
+ ┃ ┃ ┣ 📜rdsread.o
+ ┃ ┃ ┣ 📜rdswrite.o
+ ┃ ┃ ┣ 📜read.o
+ ┃ ┃ ┣ 📜ready.o
+ ┃ ┃ ┣ 📜receive.o
+ ┃ ┃ ┣ 📜recvclr.o
+ ┃ ┃ ┣ 📜recvtime.o
+ ┃ ┃ ┣ 📜resched.o
+ ┃ ┃ ┣ 📜resume.o
+ ┃ ┃ ┣ 📜rflclose.o
+ ┃ ┃ ┣ 📜rflgetc.o
+ ┃ ┃ ┣ 📜rflinit.o
+ ┃ ┃ ┣ 📜rflputc.o
+ ┃ ┃ ┣ 📜rflread.o
+ ┃ ┃ ┣ 📜rflseek.o
+ ┃ ┃ ┣ 📜rflwrite.o
+ ┃ ┃ ┣ 📜rfscomm.o
+ ┃ ┃ ┣ 📜rfscontrol.o
+ ┃ ┃ ┣ 📜rfsgetmode.o
+ ┃ ┃ ┣ 📜rfsinit.o
+ ┃ ┃ ┣ 📜rfsndmsg.o
+ ┃ ┃ ┣ 📜rfsopen.o
+ ┃ ┃ ┣ 📜seek.o
+ ┃ ┃ ┣ 📜semcount.o
+ ┃ ┃ ┣ 📜semcreate.o
+ ┃ ┃ ┣ 📜semdelete.o
+ ┃ ┃ ┣ 📜semreset.o
+ ┃ ┃ ┣ 📜send.o
+ ┃ ┃ ┣ 📜shell.o
+ ┃ ┃ ┣ 📜signal.o
+ ┃ ┃ ┣ 📜signaln.o
+ ┃ ┃ ┣ 📜sleep.o
+ ┃ ┃ ┣ 📜sprintf.o
+ ┃ ┃ ┣ 📜sscanf.o
+ ┃ ┃ ┣ 📜stacktrace.o
+ ┃ ┃ ┣ 📜start.o
+ ┃ ┃ ┣ 📜strchr.o
+ ┃ ┃ ┣ 📜strcmp.o
+ ┃ ┃ ┣ 📜strcpy.o
+ ┃ ┃ ┣ 📜strlen.o
+ ┃ ┃ ┣ 📜strncat.o
+ ┃ ┃ ┣ 📜strncmp.o
+ ┃ ┃ ┣ 📜strncpy.o
+ ┃ ┃ ┣ 📜strnlen.o
+ ┃ ┃ ┣ 📜strrchr.o
+ ┃ ┃ ┣ 📜strstr.o
+ ┃ ┃ ┣ 📜suspend.o
+ ┃ ┃ ┣ 📜text_on_vga.o
+ ┃ ┃ ┣ 📜tftp.o
+ ┃ ┃ ┣ 📜ttycontrol.o
+ ┃ ┃ ┣ 📜ttydispatch.o
+ ┃ ┃ ┣ 📜ttygetc.o
+ ┃ ┃ ┣ 📜ttyhandle_in.o
+ ┃ ┃ ┣ 📜ttyhandle_out.o
+ ┃ ┃ ┣ 📜ttyhandler.o
+ ┃ ┃ ┣ 📜ttyinit.o
+ ┃ ┃ ┣ 📜ttykickout.o
+ ┃ ┃ ┣ 📜ttyputc.o
+ ┃ ┃ ┣ 📜ttyread.o
+ ┃ ┃ ┣ 📜ttywrite.o
+ ┃ ┃ ┣ 📜udp.o
+ ┃ ┃ ┣ 📜unsleep.o
+ ┃ ┃ ┣ 📜userret.o
+ ┃ ┃ ┣ 📜vga.o
+ ┃ ┃ ┣ 📜vgaclose.o
+ ┃ ┃ ┣ 📜vgainit.o
+ ┃ ┃ ┣ 📜vgaopen.o
+ ┃ ┃ ┣ 📜vgaread.o
+ ┃ ┃ ┣ 📜vgaseek.o
+ ┃ ┃ ┣ 📜vgawrite.o
+ ┃ ┃ ┣ 📜wait.o
+ ┃ ┃ ┣ 📜wakeup.o
+ ┃ ┃ ┣ 📜write.o
+ ┃ ┃ ┣ 📜xdone.o
+ ┃ ┃ ┣ 📜xsh_ahorcado.o
+ ┃ ┃ ┣ 📜xsh_argecho.o
+ ┃ ┃ ┣ 📜xsh_arp.o
+ ┃ ┃ ┣ 📜xsh_cat.o
+ ┃ ┃ ┣ 📜xsh_clear.o
+ ┃ ┃ ┣ 📜xsh_date.o
+ ┃ ┃ ┣ 📜xsh_devdump.o
+ ┃ ┃ ┣ 📜xsh_echo.o
+ ┃ ┃ ┣ 📜xsh_exit.o
+ ┃ ┃ ┣ 📜xsh_help.o
+ ┃ ┃ ┣ 📜xsh_kill.o
+ ┃ ┃ ┣ 📜xsh_memdump.o
+ ┃ ┃ ┣ 📜xsh_memstat.o
+ ┃ ┃ ┣ 📜xsh_netinfo.o
+ ┃ ┃ ┣ 📜xsh_ping.o
+ ┃ ┃ ┣ 📜xsh_ps.o
+ ┃ ┃ ┣ 📜xsh_sleep.o
+ ┃ ┃ ┣ 📜xsh_udpdump.o
+ ┃ ┃ ┣ 📜xsh_udpecho.o
+ ┃ ┃ ┣ 📜xsh_udpserver.o
+ ┃ ┃ ┣ 📜xsh_uptime.o
+ ┃ ┃ ┗ 📜yield.o
+ ┃ ┣ 📂test
+ ┃ ┃ ┣ 📂grub
+ ┃ ┃ ┃ ┗ 📜grub.cfg
+ ┃ ┃ ┗ 📂img
+ ┃ ┃ ┃ ┣ 📂boot
+ ┃ ┃ ┃ ┃ ┗ 📂grub
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜grub.cfg
+ ┃ ┃ ┃ ┗ 📜xinu.elf
+ ┃ ┣ 📜.defs
+ ┃ ┣ 📜.deps
+ ┃ ┣ 📜.vers_num
+ ┃ ┣ 📜Makefile
+ ┃ ┣ 📜disk.iso
+ ┃ ┣ 📜ld.script
+ ┃ ┣ 📜version
+ ┃ ┣ 📜xinu.elf
+ ┃ ┗ 📜xinu.map
+ ┣ 📂config
+ ┃ ┣ 📜.yyleng
+ ┃ ┣ 📜Configuration
+ ┃ ┣ 📜DESCRIPTION
+ ┃ ┣ 📜Makefile
+ ┃ ┣ 📜conf.c
+ ┃ ┣ 📜conf.h
+ ┃ ┣ 📜config
+ ┃ ┣ 📜config.l
+ ┃ ┣ 📜config.y
+ ┃ ┣ 📜lex.yy.c
+ ┃ ┗ 📜y.tab.c
+ ┣ 📂device
+ ┃ ┣ 📂eth
+ ┃ ┃ ┣ 📜82545EMInit.c
+ ┃ ┃ ┣ 📜ethcontrol.c
+ ┃ ┃ ┣ 📜ethdispatch.S
+ ┃ ┃ ┣ 📜ethhandler.c
+ ┃ ┃ ┣ 📜ethinit.c
+ ┃ ┃ ┣ 📜ethread.c
+ ┃ ┃ ┗ 📜ethwrite.c
+ ┃ ┣ 📂kbd
+ ┃ ┃ ┣ 📜kbdclose.c
+ ┃ ┃ ┣ 📜kbddispatch.S
+ ┃ ┃ ┣ 📜kbdhandler.c
+ ┃ ┃ ┣ 📜kbdinit.c
+ ┃ ┃ ┣ 📜kbdopen.c
+ ┃ ┃ ┣ 📜kbdread.c
+ ┃ ┃ ┗ 📜kbdwrite.c
+ ┃ ┣ 📂lfs
+ ┃ ┃ ┣ 📜lfdballoc.c
+ ┃ ┃ ┣ 📜lfdbfree.c
+ ┃ ┃ ┣ 📜lfflush.c
+ ┃ ┃ ┣ 📜lfgetmode.c
+ ┃ ┃ ┣ 📜lfiballoc.c
+ ┃ ┃ ┣ 📜lfibclear.c
+ ┃ ┃ ┣ 📜lfibget.c
+ ┃ ┃ ┣ 📜lfibput.c
+ ┃ ┃ ┣ 📜lflclose.c
+ ┃ ┃ ┣ 📜lflcontrol.c
+ ┃ ┃ ┣ 📜lflgetc.c
+ ┃ ┃ ┣ 📜lflinit.c
+ ┃ ┃ ┣ 📜lflputc.c
+ ┃ ┃ ┣ 📜lflread.c
+ ┃ ┃ ┣ 📜lflseek.c
+ ┃ ┃ ┣ 📜lflwrite.c
+ ┃ ┃ ┣ 📜lfscheck.c
+ ┃ ┃ ┣ 📜lfsckfmt.c
+ ┃ ┃ ┣ 📜lfscreate.c
+ ┃ ┃ ┣ 📜lfsetup.c
+ ┃ ┃ ┣ 📜lfsinit.c
+ ┃ ┃ ┣ 📜lfsopen.c
+ ┃ ┃ ┗ 📜lftruncate.c
+ ┃ ┣ 📂mice
+ ┃ ┃ ┣ 📜mice.txt
+ ┃ ┃ ┣ 📜miceclose.c
+ ┃ ┃ ┣ 📜micedispatch.S
+ ┃ ┃ ┣ 📜micehandler.c
+ ┃ ┃ ┣ 📜miceinit.c
+ ┃ ┃ ┣ 📜miceopen.c
+ ┃ ┃ ┣ 📜miceread.c
+ ┃ ┃ ┣ 📜miceutils.c
+ ┃ ┃ ┗ 📜micewrite.c
+ ┃ ┣ 📂nam
+ ┃ ┃ ┣ 📜mount.c
+ ┃ ┃ ┣ 📜naminit.c
+ ┃ ┃ ┣ 📜nammap.c
+ ┃ ┃ ┗ 📜namopen.c
+ ┃ ┣ 📂ram
+ ┃ ┃ ┣ 📜ramclose.c
+ ┃ ┃ ┣ 📜raminit.c
+ ┃ ┃ ┣ 📜ramopen.c
+ ┃ ┃ ┣ 📜ramread.c
+ ┃ ┃ ┗ 📜ramwrite.c
+ ┃ ┣ 📂rds
+ ┃ ┃ ┣ 📜rdsbufalloc.c
+ ┃ ┃ ┣ 📜rdsclose.c
+ ┃ ┃ ┣ 📜rdscomm.c
+ ┃ ┃ ┣ 📜rdscontrol.c
+ ┃ ┃ ┣ 📜rdsinit.c
+ ┃ ┃ ┣ 📜rdsopen.c
+ ┃ ┃ ┣ 📜rdsprocess.c
+ ┃ ┃ ┣ 📜rdsread.c
+ ┃ ┃ ┗ 📜rdswrite.c
+ ┃ ┣ 📂rfs
+ ┃ ┃ ┣ 📜rflclose.c
+ ┃ ┃ ┣ 📜rflgetc.c
+ ┃ ┃ ┣ 📜rflinit.c
+ ┃ ┃ ┣ 📜rflputc.c
+ ┃ ┃ ┣ 📜rflread.c
+ ┃ ┃ ┣ 📜rflseek.c
+ ┃ ┃ ┣ 📜rflwrite.c
+ ┃ ┃ ┣ 📜rfscomm.c
+ ┃ ┃ ┣ 📜rfscontrol.c
+ ┃ ┃ ┣ 📜rfsgetmode.c
+ ┃ ┃ ┣ 📜rfsinit.c
+ ┃ ┃ ┣ 📜rfsndmsg.c
+ ┃ ┃ ┗ 📜rfsopen.c
+ ┃ ┣ 📂sdmc
+ ┃ ┃ ┣ 📜sdmcclose.c
+ ┃ ┃ ┣ 📜sdmccmd.c
+ ┃ ┃ ┣ 📜sdmcdispatch.S
+ ┃ ┃ ┣ 📜sdmcinit.c
+ ┃ ┃ ┣ 📜sdmcinterrupt.c
+ ┃ ┃ ┣ 📜sdmcopen.c
+ ┃ ┃ ┣ 📜sdmcread.c
+ ┃ ┃ ┗ 📜sdmcwrite.c
+ ┃ ┣ 📂tty
+ ┃ ┃ ┣ 📜ttycontrol.c
+ ┃ ┃ ┣ 📜ttydispatch.S
+ ┃ ┃ ┣ 📜ttygetc.c
+ ┃ ┃ ┣ 📜ttyhandle_in.c
+ ┃ ┃ ┣ 📜ttyhandle_out.c
+ ┃ ┃ ┣ 📜ttyhandler.c
+ ┃ ┃ ┣ 📜ttyinit.c
+ ┃ ┃ ┣ 📜ttykickout.c
+ ┃ ┃ ┣ 📜ttyputc.c
+ ┃ ┃ ┣ 📜ttyread.c
+ ┃ ┃ ┗ 📜ttywrite.c
+ ┃ ┗ 📂vga
+ ┃ ┃ ┣ 📜vgaclose.c
+ ┃ ┃ ┣ 📜vgainit.c
+ ┃ ┃ ┣ 📜vgaopen.c
+ ┃ ┃ ┣ 📜vgaread.c
+ ┃ ┃ ┣ 📜vgaseek.c
+ ┃ ┃ ┗ 📜vgawrite.c
+ ┣ 📂include
+ ┃ ┣ 📜arp.h
+ ┃ ┣ 📜bufpool.h
+ ┃ ┣ 📜clock.h
+ ┃ ┣ 📜colores.h
+ ┃ ┣ 📜conf.h
+ ┃ ┣ 📜ctype.h
+ ┃ ┣ 📜date.h
+ ┃ ┣ 📜debug.h
+ ┃ ┣ 📜delay.h
+ ┃ ┣ 📜device.h
+ ┃ ┣ 📜dhcp.h
+ ┃ ┣ 📜dns.h
+ ┃ ┣ 📜e1000e.h
+ ┃ ┣ 📜ether.h
+ ┃ ┣ 📜ethloop.h
+ ┃ ┣ 📜file.h
+ ┃ ┣ 📜flash.h
+ ┃ ┣ 📜font.h
+ ┃ ┣ 📜i386.h
+ ┃ ┣ 📜icmp.h
+ ┃ ┣ 📜icu.h
+ ┃ ┣ 📜icu.s
+ ┃ ┣ 📜interrupt.h
+ ┃ ┣ 📜io.h
+ ┃ ┣ 📜ip.h
+ ┃ ┣ 📜kernel.h
+ ┃ ┣ 📜keyboard.h
+ ┃ ┣ 📜lfilesys.h
+ ┃ ┣ 📜limits.h
+ ┃ ┣ 📜mark.h
+ ┃ ┣ 📜memory.h
+ ┃ ┣ 📜mouse.h
+ ┃ ┣ 📜multiboot.h
+ ┃ ┣ 📜multiboot.h.orig
+ ┃ ┣ 📜name.h
+ ┃ ┣ 📜net.h
+ ┃ ┣ 📜pci.h
+ ┃ ┣ 📜ports.h
+ ┃ ┣ 📜process.h
+ ┃ ┣ 📜prototypes.h
+ ┃ ┣ 📜pxe.h
+ ┃ ┣ 📜quark_irq.h
+ ┃ ┣ 📜quark_pdat.h
+ ┃ ┣ 📜queue.h
+ ┃ ┣ 📜ramdisk.h
+ ┃ ┣ 📜rdisksys.h
+ ┃ ┣ 📜resched.h
+ ┃ ┣ 📜rfilesys.h
+ ┃ ┣ 📜sdmc.h
+ ┃ ┣ 📜semaphore.h
+ ┃ ┣ 📜shell.h
+ ┃ ┣ 📜shprototypes.h
+ ┃ ┣ 📜stdarg.h
+ ┃ ┣ 📜stddef.h
+ ┃ ┣ 📜stdio.h
+ ┃ ┣ 📜stdlib.h
+ ┃ ┣ 📜string.h
+ ┃ ┣ 📜testsuite.h
+ ┃ ┣ 📜tftp.h
+ ┃ ┣ 📜tty.h
+ ┃ ┣ 📜uart.h
+ ┃ ┣ 📜udp.h
+ ┃ ┣ 📜vga.h
+ ┃ ┗ 📜xinu.h
+ ┣ 📂lib
+ ┃ ┣ 📜abs.c
+ ┃ ┣ 📜atoi.c
+ ┃ ┣ 📜atol.c
+ ┃ ┣ 📜bzero.c
+ ┃ ┣ 📜ctype_.c
+ ┃ ┣ 📜doprnt.c
+ ┃ ┣ 📜doscan.c
+ ┃ ┣ 📜fdoprnt.c
+ ┃ ┣ 📜fgetc.c
+ ┃ ┣ 📜fgets.c
+ ┃ ┣ 📜fprintf.c
+ ┃ ┣ 📜fputc.c
+ ┃ ┣ 📜fputs.c
+ ┃ ┣ 📜fscanf.c
+ ┃ ┣ 📜getchar.c
+ ┃ ┣ 📜labs.c
+ ┃ ┣ 📜memchr.c
+ ┃ ┣ 📜memcmp.c
+ ┃ ┣ 📜memcpy.c
+ ┃ ┣ 📜memset.c
+ ┃ ┣ 📜printf.c
+ ┃ ┣ 📜putchar.c
+ ┃ ┣ 📜qsort.c
+ ┃ ┣ 📜rand.c
+ ┃ ┣ 📜sprintf.c
+ ┃ ┣ 📜sscanf.c
+ ┃ ┣ 📜strchr.c
+ ┃ ┣ 📜strcmp.c
+ ┃ ┣ 📜strcpy.c
+ ┃ ┣ 📜strlen.c
+ ┃ ┣ 📜strncat.c
+ ┃ ┣ 📜strncmp.c
+ ┃ ┣ 📜strncpy.c
+ ┃ ┣ 📜strnlen.c
+ ┃ ┣ 📜strrchr.c
+ ┃ ┣ 📜strstr.c
+ ┃ ┣ 📜text_on_vga.c
+ ┃ ┗ 📜vga.c
+ ┣ 📂net
+ ┃ ┣ 📜arp.c
+ ┃ ┣ 📜arp_dump.c
+ ┃ ┣ 📜dhcp.c
+ ┃ ┣ 📜dhcp_dump.c
+ ┃ ┣ 📜dns.c
+ ┃ ┣ 📜dot2ip.c
+ ┃ ┣ 📜hexdump.c
+ ┃ ┣ 📜icmp.c
+ ┃ ┣ 📜ip.c
+ ┃ ┣ 📜net.c
+ ┃ ┣ 📜pdump.c
+ ┃ ┣ 📜pxe.c
+ ┃ ┣ 📜tftp.c
+ ┃ ┗ 📜udp.c
+ ┣ 📂shell
+ ┃ ┣ 📜addargs.c
+ ┃ ┣ 📜cmdtab.c
+ ┃ ┣ 📜lexan.c
+ ┃ ┣ 📜mouse.c
+ ┃ ┣ 📜shell.c
+ ┃ ┣ 📜xsh_ahorcado.c
+ ┃ ┣ 📜xsh_argecho.c
+ ┃ ┣ 📜xsh_arp.c
+ ┃ ┣ 📜xsh_cat.c
+ ┃ ┣ 📜xsh_clear.c
+ ┃ ┣ 📜xsh_date.c
+ ┃ ┣ 📜xsh_devdump.c
+ ┃ ┣ 📜xsh_echo.c
+ ┃ ┣ 📜xsh_exit.c
+ ┃ ┣ 📜xsh_help.c
+ ┃ ┣ 📜xsh_kill.c
+ ┃ ┣ 📜xsh_memdump.c
+ ┃ ┣ 📜xsh_memstat.c
+ ┃ ┣ 📜xsh_netinfo.c
+ ┃ ┣ 📜xsh_ping.c
+ ┃ ┣ 📜xsh_ps.c
+ ┃ ┣ 📜xsh_rdstest.c
+ ┃ ┣ 📜xsh_sleep.c
+ ┃ ┣ 📜xsh_udpdump.c
+ ┃ ┣ 📜xsh_udpecho.c
+ ┃ ┣ 📜xsh_udpserver.c
+ ┃ ┗ 📜xsh_uptime.c
+ ┣ 📂system
+ ┃ ┣ 📜ascdate.c
+ ┃ ┣ 📜bufinit.c
+ ┃ ┣ 📜chprio.c
+ ┃ ┣ 📜clkdisp.S
+ ┃ ┣ 📜clkhandler.c
+ ┃ ┣ 📜clkinit.c
+ ┃ ┣ 📜close.c
+ ┃ ┣ 📜conf.c
+ ┃ ┣ 📜control.c
+ ┃ ┣ 📜create.c
+ ┃ ┣ 📜ctxsw.S
+ ┃ ┣ 📜debug.c
+ ┃ ┣ 📜evec.c
+ ┃ ┣ 📜exit.c
+ ┃ ┣ 📜freebuf.c
+ ┃ ┣ 📜freemem.c
+ ┃ ┣ 📜getbuf.c
+ ┃ ┣ 📜getc.c
+ ┃ ┣ 📜getdev.c
+ ┃ ┣ 📜getitem.c
+ ┃ ┣ 📜getmem.c
+ ┃ ┣ 📜getpid.c
+ ┃ ┣ 📜getprio.c
+ ┃ ┣ 📜getstk.c
+ ┃ ┣ 📜getticks.c
+ ┃ ┣ 📜gettime.c
+ ┃ ┣ 📜getutime.c
+ ┃ ┣ 📜i386.c
+ ┃ ┣ 📜init.c
+ ┃ ┣ 📜initialize.c
+ ┃ ┣ 📜insert.c
+ ┃ ┣ 📜insertd.c
+ ┃ ┣ 📜intr.S
+ ┃ ┣ 📜ioerr.c
+ ┃ ┣ 📜ionull.c
+ ┃ ┣ 📜kill.c
+ ┃ ┣ 📜kprintf.c
+ ┃ ┣ 📜main.c
+ ┃ ┣ 📜mark.c
+ ┃ ┣ 📜meminit.c
+ ┃ ┣ 📜mkbufpool.c
+ ┃ ┣ 📜newqueue.c
+ ┃ ┣ 📜open.c
+ ┃ ┣ 📜panic.c
+ ┃ ┣ 📜pci.c
+ ┃ ┣ 📜ptclear.c
+ ┃ ┣ 📜ptcount.c
+ ┃ ┣ 📜ptcreate.c
+ ┃ ┣ 📜ptdelete.c
+ ┃ ┣ 📜ptinit.c
+ ┃ ┣ 📜ptrecv.c
+ ┃ ┣ 📜ptreset.c
+ ┃ ┣ 📜ptsend.c
+ ┃ ┣ 📜putc.c
+ ┃ ┣ 📜queue.c
+ ┃ ┣ 📜read.c
+ ┃ ┣ 📜ready.c
+ ┃ ┣ 📜receive.c
+ ┃ ┣ 📜recvclr.c
+ ┃ ┣ 📜recvtime.c
+ ┃ ┣ 📜resched.c
+ ┃ ┣ 📜resume.c
+ ┃ ┣ 📜seek.c
+ ┃ ┣ 📜semcount.c
+ ┃ ┣ 📜semcreate.c
+ ┃ ┣ 📜semdelete.c
+ ┃ ┣ 📜semreset.c
+ ┃ ┣ 📜send.c
+ ┃ ┣ 📜signal.c
+ ┃ ┣ 📜signaln.c
+ ┃ ┣ 📜sleep.c
+ ┃ ┣ 📜stacktrace.c
+ ┃ ┣ 📜start.S
+ ┃ ┣ 📜start.S.multiboot.okey
+ ┃ ┣ 📜start.S.test
+ ┃ ┣ 📜suspend.c
+ ┃ ┣ 📜unsleep.c
+ ┃ ┣ 📜userret.c
+ ┃ ┣ 📜wait.c
+ ┃ ┣ 📜wakeup.c
+ ┃ ┣ 📜write.c
+ ┃ ┣ 📜xdone.c
+ ┃ ┗ 📜yield.c
+ ┣ 📜DESCRIPTION
+ ┗ 📜README.md
