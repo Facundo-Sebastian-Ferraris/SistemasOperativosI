@@ -71,7 +71,7 @@ process shell(
 			SHELL_BAN5, SHELL_BAN6, SHELL_BAN7, SHELL_BAN8, SHELL_BAN9);
 
 	fprintf(dev, "%s\n\n", SHELL_STRTMSG);
-	fprintf(dev, "\033[32;1mtipea   help [ENTER]   para recibir ayuda.\n\n");
+	fprintf(dev, "\033[0mtipea   help [ENTER]   para recibir ayuda.\n\n");
 
 	/* Continually prompt the user, read input, and execute command	*/
 
