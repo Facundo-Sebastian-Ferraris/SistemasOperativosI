@@ -49,7 +49,7 @@ CTRL + ALT + 3
 
 ---
 
-## **🎨 Ejercicio 2: Modificación de Xinu**  
+## [**🎨 Ejercicio 2: Modificación de Xinu**](./Respuestas.md#-ejercicio-2-modificación-de-la-pantalla-principal-en-xinu-️)  
 
 🔹 **Editar `main.c`** para mostrar un mensaje en la **pantalla VGA a colores**.  
 🔹 **Compilar y verificar** los cambios.  

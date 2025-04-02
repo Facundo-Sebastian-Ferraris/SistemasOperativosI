@@ -60,11 +60,11 @@ Basándonos en el [árbol de archivos de XINU](./XinuTree.txt), podemos encontra
 
 QEMU ofrece la opción de mostrar las pestañas de secciones, entre ellas está `serial0`. Haciendo clic en ella o usando `Ctrl + Alt + 3`, podrás acceder al **shell del sistema**.  
 
----  
+---
 
 ### **Visualización de Procesos** 📊👀  
 
-Para ver los procesos en ejecución, usa el comando `ps` (*Process Status*). Este muestra una lista de todos los procesos activos, incluyendo sus **IDs, estados, prioridades** y más detalles.  
+Para ver los procesos en ejecución, usa el comando `ps` (**Process Status**). Este muestra una lista de todos los procesos activos, incluyendo sus **IDs, estados, prioridades** y más detalles.  
 
 🔹 **Ejemplo de salida:**
 
@@ -119,3 +119,50 @@ Pid Name             State Prio Ppid Stack Base Stack Ptr  Stack Size
 
 - **`kill <PID>`**: Terminar un proceso (ejemplo: `kill 1` para cerrar `rdsproc`).  
 - **`memstat`**: Ver uso de memoria (si hay fugas en procesos).  
+
+## [🎨 Ejercicio 2: Modificación de la Pantalla Principal en Xinu 🖥️](./README.md#-ejercicio-2-modificación-de-xinu)
+
+En el directorio `system` encontramos el archivo `main.c`, el cual contiene instrucciones básicas como:  
+
+- Pintar la pantalla de amarillo (`paint_screen()`) 🟨  
+- Imprimir texto en la pantalla VGA usando `print_text_on_vga(x, y, s)`, donde:  
+  - `x` = posición horizontal  
+  - `y` = posición vertical (aumenta hacia abajo)  
+  - `s` = texto a mostrar  
+
+### 🛠️ Modificaciones realizadas  
+
+#### 1. **Fondo con Degradado** 🌈
+
+Se modificó `paint_screen()` para que genere un **degradado suave** desde negro hasta un color personalizado, en lugar de un fondo plano.  
+
+#### 2. **Texto en Blanco** ⚪
+
+El color del texto se cambió a **blanco** para garantizar un buen contraste con el fondo oscuro del degradado.  
+
+#### 3. **ASCII Art + Datos del Alumno** 🎨📝
+
+En [`main.c`](../../xinu-pc/system/main.c), se agregó una función `printWallpaper()` que muestra:  
+
+- **Arte ASCII** (diseños creados con caracteres).  
+- **Nombre y legajo del alumno** en un formato visualmente atractivo.  
+
+#### 🎨 **Manejo de Colores Simplificado**
+
+Para facilitar el trabajo con colores, se incluyó la librería **[colores.h](../../xinu-pc/include/colores.h)**, que contiene:  
+
+- **Constantes predefinidas** en formato hexadecimal (ej: `COLOR_ROJO = 0xFFFF0000`).  
+- **Funciones útiles**:  
+  - `ARGB(a, r, g, b)` → Genera un color personalizado en formato **ARGB**.  
+  - `GET_A(color)`, `GET_R(color)`, `GET_G(color)`, `GET_B(color)` → Extraen componentes del color.  
+
+🔹 **Formato ARGB**:
+
+- **A** (Alpha - Transparencia)  
+- **R** (Rojo)  
+- **G** (Verde)  
+- **B** (Azul)  
+
+### 🚀 Visualizacion de la imagen
+
+![xinuScreen](./XinuScreenSample.png)
