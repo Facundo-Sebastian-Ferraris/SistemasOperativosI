@@ -169,14 +169,14 @@ Para facilitar el trabajo con colores, se incluyó la librería **[colores.h](..
 
 ## [3. Incorporacion de programas en XINU 🖥️](./README.md#-ejercicio-3-incorporar-un-programa-al-shell-de-xinu)
 
-Para la instalacion de cualquier programa en XINU se debe tener ciertos recaudos, como por ejemplo que el metodo del codigo principal no debe llamarse main() ya que este ...[no se que poner]
+Para la instalacion de cualquier programa en XINU se debe tener ciertos recaudos, como por ejemplo que el metodo del codigo principal no debe llamarse `main()` y debe tener el prefijo `xsh` (que se explicara mas adelante, [click aqui para explicacion](#importancia-de-que-el-prototipo-no-debe-llamarse-main))
 por lo que tendremos que llamarlo de otra forma, a modo de protocolo lo nombramos agregando de prefijo `xsh_`, ademas que es un void por lo que no es necesario indicarlo.
 
 ```c
 #include <xinu.h>
 xsh_mi_programa()
 {
-    printf("Hola mundo! 🌱✨\n");
+    kprintf("Hola mundo! 🌱✨\n");
 }
 ```
 
@@ -216,19 +216,29 @@ extern shellcmd xsh_mi_programa();
 
 Donde `shellcmd` es un `typedef` que representa la `firma estándar` que deben tener todas las funciones que implementan comandos del shell.
 
-> Un `typedef` es la forma de crear alias en C para tipos de datos existentes, en este caso:
+> - Un `typedef` es la forma de crear alias en C para tipos de datos existentes, en este caso:
    `typedef int32  shellcmd;   /* shell command declaration*/`
-
->Una `firma estándar` es un formato consistente que deben seguir todas las funciones de cierto tipo, por ejemplo:
+> - Una `firma estándar` es un formato consistente que deben seguir todas las funciones de cierto tipo, por ejemplo:
    `extern shellcmd xsh_help(int32, char *[]);`
 
-### `cmdtab.c (shell prototypes)`
+### `cmdtab.c`
 
-En este código se guarda un arreglo donde se guarda:
+Este código contiene un arreglo del tipo cmdent. Este tipo de dato es una estructura que se ve de la siguiente manera:
 
-- **Un nombre de comando**: para cuando se ingresa ese nombre, el programa se ejecute
-- **Un estado**: para determinar si el proceso del programa es "killeable" (FALSE para que sea "killeable")
-- **Nombre del prototipo**: el prototipo del programa en cuestion
+```c
+struct cmdent
+{ /* Entry in command table*/
+ char *cname; /* Name of command*/
+ bool8 cbuiltin; /* Is this a builtin command?*/
+ int32 (*cfunc)(int32, char *[]); /* Function for command*/
+};
+```
+
+En el cual se tiene:
+
+- **Un nombre de comando `*cname`**: para cuando se ingresa ese nombre desde la terminal, el programa se ejecute.
+- **Un estado builtin `cbuiltin`**: para determinar si el proceso del programa es "killeable" (FALSE para que sea "killable")
+- **Funcion del prototipo `*cfunc`**: el prototipo del programa en cuestion
 
 ```c
 const struct cmdent cmdtab[] = {
@@ -240,15 +250,204 @@ const struct cmdent cmdtab[] = {
    {"programita", FALSE, xsh_mi_programa} // 22 NUEVO PROGRAMA INGRESADO
 ```
 
-#### Glosario Teorico
+#### **🎯 Implicancias de un proceso killable o no killable**
 
-##### Estructura del dato cmdent
+##### **🔥 Procesos Killable (builtin = FALSE)**
+
+###### ✅ **Ventajas** 🔥
+
+1. **Control de usuario** 👨‍💻  
+   - Los usuarios pueden matar procesos que se cuelgan o consumen muchos recursos
+
+2. **Aislamiento de fallos** 🛡️  
+   - Si el proceso falla, no afecta al shell principal
+
+3. **Liberación de recursos** ♻️  
+   - Al matar el proceso, se liberan:  
+     - Memoria
+     - Dispositivos bloqueados
+     - Entradas en la tabla de procesos
+
+###### ❌ **Riesgos** 🔥
+
+1. **Terminación accidental** 💥  
+   - Un usuario podría matar procesos importantes por error
+
+2. **Corrupción de estado** 🦠  
+   - Si el proceso estaba escribiendo en un archivo/dispositivo, podría dejar datos inconsistentes
+
+3. **Huérfanos** 👶  
+   - Procesos hijos podrían quedar huérfanos si el padre es killado
+
+---
+
+##### 🛡️**Procesos No-Killable (`builtin = TRUE`)**
+
+###### ✅ **Ventajas** 🛡️
+
+1. **Estabilidad del sistema** 🏗️  
+   - Comandos críticos como `exit` o `kill` siempre estarán disponibles
+
+2. **Acceso privilegiado** 🔑  
+   - Pueden modificar estructuras internas del kernel con seguridad
+
+3. **Consistencia** 📊  
+   - Evitan estados inconsistentes al no poder ser interrumpidos abruptamente
+
+###### ❌ **Riesgos** 🛡️
+
+1. **Posibles deadlocks** 🔄  
+   - Si un comando built-in se bloquea, puede congelar todo el shell
+
+2. **Abuso de recursos** 🐖  
+   - Un loop infinito en un built-in consumiría recursos indefinidamente
+
+3. **Dificultad para depurar** 🐛  
+   - No se puede "matar" para reiniciar el shell fácilmente
+
+---
+
+##### 📊 **Tabla Comparativa Crítica**
+
+| Aspectos              | Killable                    | No-Killable              |
+|:---------------------:|-----------------------------|--------------------------|
+| **Seguridad**         | ❌ Riesgo de terminación    | ✅ Estable               |
+| **Flexibilidad**      | ✅ Usuario tiene control    | ❌ Rígido                |
+| **Uso de recursos**   | ❌ Puede dejar fugas        | ✅ Limpieza garantizada  |
+| **Implementación**    | Más simple                  | Requiere sincronización  |
+| **Ejemplos típicos**  | `ping`, `hm` _(ahorcado)_     | `exit`, `kill`, `clear`  |
+
+---
+
+##### **💡 Cuando usar cada uno?**
+
+1. **Usar `builtin = TRUE` solo para**:
+   - Comandos que gestionan el ciclo de vida del shell (`exit`)
+   - Herramientas de administración crítica (`kill`)
+
+2. **Usar `builtin = FALSE` para**:
+   - Aplicaciones de usuario (como tu juego)
+   - Comandos que no modifican estado global
+
+3. **Excepciones**:
+   - `clear` es built-in (aunque no parece crítico) porque:
+     - Debe acceder directamente al buffer de video
+     - Es rápido y no debe fallar
+
+---
+
+### Salida de pantalla desde XINU
+
+![SalidaXINU](./OutPut-XSH_programa.png)
+
+#### Observación
+
+Al ejecutar el comando de ayuda nos despliega la lista de programas que se pueden ejecutar. Entre estas apareceran las que instalamos.
+
+Al tipear el comando `programita`, se ejecutara nuestro código.
+
+### Importancia de que el prototipo ^no^ debe llamarse main
+
+1. **El kernel ya tiene su propio `main()`**  
+   Xinu tiene una función `main()` principal en el kernel que:
+   - Inicializa todo el sistema operativo
+   - Configura hardware
+   - Lanza el shell primario
+
+   ```c
+   // En el código base del kernel:
+   int main(void) {
+       /* Inicialización del sistema */
+       ...
+   }
+   ```
+
+2. **Problema de enlazado (linking)**  
+   Si múltiples archivos definieran `main()`, el linker no sabría cuál es el verdadero punto de entrada, causando errores como:
+
+   ```bash
+   multiple definition of `main'
+   ```
+
+### 🔄 **Cómo Funciona el Modelo de Xinu**
+
+- **Programas como comandos del shell**:  
+  Cada "programa" es en realidad una función registrada en la tabla de comandos (`cmdtab`).
+
+- **Estructura típica**:
+
+  ```c
+  #include <xinu.h>
+  
+  void xsh_mi_programa(void) {  // ¡No es main()!
+      kprintf("Hola desde Xinu!\n");
+  }
+  ```
+
+### ⚙️ **Detalles Técnicos**
+
+1. **Namespace del kernel**  
+   Xinu mantiene un espacio de nombres plano (no hay namespaces como en C++), por lo que los nombres deben ser únicos.
+
+2. **Protocolo de prefijos**  
+   La convención `xsh_` (eXinu SHell) ayuda a:
+   - Evitar colisiones
+   - Identificar claramente comandos del shell
+   - Organizar el código
+
+3. **Sistema de build**  
+   El Makefile de Xinu espera esta estructura:
+
+   ```makefile
+   # Busca funciones con prefijo xsh_ para incluirlas
+   COMMANDS += xsh_mi_programa.o
+   ```
+
+### 💡 **Ejemplo Práctico**
+
+Así es como Xinu maneja el punto de entrada real vs. comandos:
 
 ```c
-struct cmdent
-{									 /* Entry in command table	*/
-	char *cname;					 /* Name of command		*/
-	bool8 cbuiltin;					 /* Is this a builtin command?	*/
-	int32 (*cfunc)(int32, char *[]); /* Function for command		*/
-};
+// kernel/main.c
+int main(void) {            // Punto de entrada REAL
+    ... // Inicialización
+    shell();               // Lanza el shell
+}
+
+// shell/shell.c
+void shell(void) {
+    while(1) {
+        // Busca en cmdtab (que contiene xsh_*)
+        ejecutar_comando(entrada_usuario);
+    }
+}
+```
+
+### 🚫 **¿Qué pasaría si usaras main()?**
+
+1. **Error de compilación**: En sistemas con protección de símbolos.
+2. **Comportamiento indefinido**: En otros casos, el programa podría:
+   - Reemplazar el main() del kernel (¡catastrófico!)
+   - Generar un ejecutable que no arranca
+   - Causar corrupción de memoria
+
+### ✅ **Best Practice en Xinu**
+
+Siempre usa:
+
+```c
+void xsh_nombre_programa(void) { ... }
+```
+
+Y regístralo en:
+
+1. `shprototypes.h` (declaración)
+2. `cmdtab[]` (tabla de comandos)
+
+### 🌟 **Excepción Notable**
+
+El único archivo que debe contener `main()` es el que inicia el kernel, típicamente:
+
+```bash
+xinu-pc/system/initialize.c
 ```
