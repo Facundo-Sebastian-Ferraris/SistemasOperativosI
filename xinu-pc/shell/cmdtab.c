@@ -7,28 +7,29 @@
 /* Table of Xinu shell commands and the function associated with each	*/
 /************************************************************************/
 const struct cmdent cmdtab[] = {
-	{"argecho", TRUE, xsh_argecho},
-	{"arp", FALSE, xsh_arp},
-	{"cat", FALSE, xsh_cat},
-	{"clear", TRUE, xsh_clear},
-	{"date", FALSE, xsh_date},
-	{"devdump", FALSE, xsh_devdump},
-	{"echo", FALSE, xsh_echo},
-	{"exit", TRUE, xsh_exit},
-	{"help", FALSE, xsh_help},
-	{"kill", TRUE, xsh_kill},
-	{"memdump", FALSE, xsh_memdump},
-	{"memstat", FALSE, xsh_memstat},
-	{"netinfo", FALSE, xsh_netinfo},
-	{"ping", FALSE, xsh_ping},
-	{"ps", FALSE, xsh_ps},
-	{"sleep", FALSE, xsh_sleep},
-	{"udp", FALSE, xsh_udpdump},
-	{"udpecho", FALSE, xsh_udpecho},
-	{"udpeserver", FALSE, xsh_udpeserver},
-	{"uptime", FALSE, xsh_uptime},
-	{"?", FALSE, xsh_help},
-	{"hm", FALSE, xsh_ahorcado}
+	{"argecho", TRUE, xsh_argecho},		   // 0
+	{"arp", FALSE, xsh_arp},			   // 1
+	{"cat", FALSE, xsh_cat},			   // 2
+	{"clear", TRUE, xsh_clear},			   // 3
+	{"date", FALSE, xsh_date},			   // 4
+	{"devdump", FALSE, xsh_devdump},	   // 5
+	{"echo", FALSE, xsh_echo},			   // 6
+	{"exit", TRUE, xsh_exit},			   // 7
+	{"help", FALSE, xsh_help},			   // 8
+	{"kill", TRUE, xsh_kill},			   // 9
+	{"memdump", FALSE, xsh_memdump},	   // 10
+	{"memstat", FALSE, xsh_memstat},	   // 11
+	{"netinfo", FALSE, xsh_netinfo},	   // 12
+	{"ping", FALSE, xsh_ping},			   // 13
+	{"ps", FALSE, xsh_ps},				   // 14
+	{"sleep", FALSE, xsh_sleep},		   // 15
+	{"udp", FALSE, xsh_udpdump},		   // 16
+	{"udpecho", FALSE, xsh_udpecho},	   // 17
+	{"udpeserver", FALSE, xsh_udpeserver}, // 18
+	{"uptime", FALSE, xsh_uptime},		   // 19
+	{"?", FALSE, xsh_help},				   // 20
+	{"hm", FALSE, xsh_ahorcado},		   // 21
+	{"programita", FALSE, xsh_mi_programa} // 22
 
 };
 

@@ -77,3 +77,5 @@ extern shellcmd xsh_uptime(int32, char *[]);
 extern shellcmd xsh_help(int32, char *[]);
 
 extern shellcmd xsh_ahorcado();
+
+extern shellcmd xsh_mi_programa();

@@ -17,7 +17,7 @@
 
 ---
 
-## [**📋 Ejercicio 1: Primeros Pasos con Xinu** ](./Respuestas.md#1-primeros-pasos-con-xinu) 
+## [**📋 Ejercicio 1: Primeros Pasos con Xinu**](./Respuestas.md#1-primeros-pasos-con-xinu)
 
 ### **📥 Descarga y Compilación**  
 
@@ -56,7 +56,7 @@ CTRL + ALT + 3
 
 ---
 
-## **🛠 Ejercicio 3: Incorporar un Programa al Shell de Xinu**  
+## [**🛠 Ejercicio 3: Incorporar un Programa al Shell de Xinu**](./Respuestas.md#3-incorporacion-de-programas-en-xinu-️)  
 
 1. **Escribir un `hello world`** en un archivo `.c` dentro de `shell/`.  
    - ❗ **¡Atención!** En Xinu, la función principal **no** se llama `main()`.  

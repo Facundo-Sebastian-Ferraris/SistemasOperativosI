@@ -24,15 +24,15 @@ xsh_ahorcado()
     int vidas = 5;
     /* Decirle al sistema que el modo input es RAW */
     clear();
-    printf("\t\t\t\033[31mA\033[33mH\033[32mO\033[36mR\033[34mC\033[35mA\033[31mD\033[33mO\033[0m 📿\t\t\n\n");
+    kprintf("\t\t\t\033[31mA\033[33mH\033[32mO\033[36mR\033[34mC\033[35mA\033[31mD\033[33mO\033[0m 📿\t\t\n\n");
     control(CONSOLE, TC_MODER, 0, 0);
     while (1)
     {
-        printf(aSAVE "\t❤️: %d\n", vidas);
-        printf("\t✏️  %s\n", SECRETO);
-        printf("\tc = %c\n\n\tingrese una letra (0 para salir):", c, vidas);
+        kprintf(aSAVE "\t❤️: %d\n", vidas);
+        kprintf("\t✏️  %s\n", SECRETO);
+        kprintf("\tc = %c\n\n\tingrese una letra (0 para salir):", c, vidas);
         c = getc(stdin);
-        printf(aLOAD);
+        kprintf(aLOAD);
         if (c == '0')
         {
             break;
@@ -44,8 +44,8 @@ xsh_ahorcado()
             if (vidas == 0)
             {
                 clear();
-                printf("\t\t\t💀 GAME OVER 💀 \n\n\t\tLa palabra era: %s\n\n\t\t [tecla cualquiera para salir]",
-                       PALABRA); // Borra toda la línea y mueve
+                kprintf("\t\t\t💀 GAME OVER 💀 \n\n\t\tLa palabra era: %s\n\n\t\t [tecla cualquiera para salir]",
+                        PALABRA); // Borra toda la línea y mueve
                 c = getc(stdin);
 
                 if (c != NULL)
@@ -57,8 +57,8 @@ xsh_ahorcado()
         else if (sonIguales(SECRETO, PALABRA))
         {
             clear();
-            printf("\t\t\t✨ GANASTE! ✨\n\n\t\tLa palabra era: %s\n\n\t\t[tecla cualquiera para salir]",
-                   PALABRA); // Borra toda la línea y mueve
+            kprintf("\t\t\t✨ GANASTE! ✨\n\n\t\tLa palabra era: %s\n\n\t\t[tecla cualquiera para salir]",
+                    PALABRA); // Borra toda la línea y mueve
             c = getc(stdin);
 
             if (c != NULL)
@@ -67,8 +67,8 @@ xsh_ahorcado()
             }
         }
     }
-    control(CONSOLE, TC_MODEC, 0, 0);
     clear();
+    control(CONSOLE, TC_MODEC, 0, 0);
 }
 
 int sonIguales(char A[], char B[])
@@ -102,7 +102,7 @@ int develar(char secreto[], char palabra[], char ingresado)
 
 void clear()
 {
-    printf(aCLEAR aHOME);
+    kprintf(aCLEAR aHOME);
 }
 
 // AYUDA:
@@ -110,9 +110,9 @@ void clear()
 
 // int main() {
 //     char *S = "Hola";
-//     printf("Dirección: %p\n", (void *)S);   // Dirección de "Hola"
-//     printf("Primer carácter: %c\n", *S);    // 'H'
-//     printf("String completo: %s\n", S);     // "Hola"
-//     printf("Segundo carácter: %c\n", *(S + 1)); // 'o'
+//     kprintf("Dirección: %p\n", (void *)S);   // Dirección de "Hola"
+//     kprintf("Primer carácter: %c\n", *S);    // 'H'
+//     kprintf("String completo: %s\n", S);     // "Hola"
+//     kprintf("Segundo carácter: %c\n", *(S + 1)); // 'o'
 //     return 0;
 // }

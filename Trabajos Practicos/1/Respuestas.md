@@ -2,7 +2,7 @@
 
 _Alumno:_ [Facundo Ferraris [FAI-3810]](https://github.com/Facundo-Sebastian-Ferraris/SistemasOperativosI)
 
-## [**1. Primeros pasos con XINU**](./README.md#-ejercicio-1-primeros-pasos-con-xinu)
+## [**1. Primeros pasos con XINU** 👣](./README.md#-ejercicio-1-primeros-pasos-con-xinu)
 
 ### **🔧 Componentes principales del sistema Xinu:**
 
@@ -120,7 +120,7 @@ Pid Name             State Prio Ppid Stack Base Stack Ptr  Stack Size
 - **`kill <PID>`**: Terminar un proceso (ejemplo: `kill 1` para cerrar `rdsproc`).  
 - **`memstat`**: Ver uso de memoria (si hay fugas en procesos).  
 
-## [🎨 Ejercicio 2: Modificación de la Pantalla Principal en Xinu 🖥️](./README.md#-ejercicio-2-modificación-de-xinu)
+## [2. Modificación del VGA 🎨](./README.md#-ejercicio-2-modificación-de-xinu)
 
 En el directorio `system` encontramos el archivo `main.c`, el cual contiene instrucciones básicas como:  
 
@@ -166,3 +166,89 @@ Para facilitar el trabajo con colores, se incluyó la librería **[colores.h](..
 ### 🚀 Visualizacion de la imagen
 
 ![xinuScreen](./XinuScreenSample.png)
+
+## [3. Incorporacion de programas en XINU 🖥️](./README.md#-ejercicio-3-incorporar-un-programa-al-shell-de-xinu)
+
+Para la instalacion de cualquier programa en XINU se debe tener ciertos recaudos, como por ejemplo que el metodo del codigo principal no debe llamarse main() ya que este ...[no se que poner]
+por lo que tendremos que llamarlo de otra forma, a modo de protocolo lo nombramos agregando de prefijo `xsh_`, ademas que es un void por lo que no es necesario indicarlo.
+
+```c
+#include <xinu.h>
+xsh_mi_programa()
+{
+    printf("Hola mundo! 🌱✨\n");
+}
+```
+
+Una vez realizado el codigo, el archivo debe encontrarse en la carpeta de shell ya que es la interfaz de usuario.
+
+```bash
+📦shell
+ .
+ .
+ .  
+ ┣ 📜xsh_HolaMundo.c
+ .
+ .
+ .
+ ```
+
+Luego debemos exportar el metodo principal del programa en dos archivos del xinu:
+
+### `shprototypes.h (shell prototypes)`
+
+Esta libreria importa todos los programas accesibles para el usuario. Es aqui donde debemos colocar el metodo principal del codigo.
+
+```c
+.
+.
+.
+/* in file xsh_uptime.c */
+extern shellcmd xsh_uptime(int32, char *[]);
+
+/* in file xsh_help.c */
+extern shellcmd xsh_help(int32, char *[]);
+
+extern shellcmd xsh_ahorcado();
+
+extern shellcmd xsh_mi_programa(); 
+```
+
+Donde `shellcmd` es un `typedef` que representa la `firma estándar` que deben tener todas las funciones que implementan comandos del shell.
+
+> Un `typedef` es la forma de crear alias en C para tipos de datos existentes, en este caso:
+   `typedef int32  shellcmd;   /* shell command declaration*/`
+
+>Una `firma estándar` es un formato consistente que deben seguir todas las funciones de cierto tipo, por ejemplo:
+   `extern shellcmd xsh_help(int32, char *[]);`
+
+### `cmdtab.c (shell prototypes)`
+
+En este código se guarda un arreglo donde se guarda:
+
+- **Un nombre de comando**: para cuando se ingresa ese nombre, el programa se ejecute
+- **Un estado**: para determinar si el proceso del programa es "killeable" (FALSE para que sea "killeable")
+- **Nombre del prototipo**: el prototipo del programa en cuestion
+
+```c
+const struct cmdent cmdtab[] = {
+   .
+   .
+   .
+   {"?", FALSE, xsh_help},                // 20
+   {"hm", FALSE, xsh_ahorcado},           // 21
+   {"programita", FALSE, xsh_mi_programa} // 22 NUEVO PROGRAMA INGRESADO
+```
+
+#### Glosario Teorico
+
+##### Estructura del dato cmdent
+
+```c
+struct cmdent
+{									 /* Entry in command table	*/
+	char *cname;					 /* Name of command		*/
+	bool8 cbuiltin;					 /* Is this a builtin command?	*/
+	int32 (*cfunc)(int32, char *[]); /* Function for command		*/
+};
+```
