@@ -13,11 +13,10 @@ int main() {
     if (pid < 0) {
         return 1;
     } else if (pid == 0) {
-        intervaloPrimos('H', 1001, 5000);
+        execl("/usr/bin/date", "date", NULL);
     } else {
         intervaloPrimos('P', 0, 1000);
-        // wait();
-        kill(pid, SIGTERM);
+        wait(NULL);
     }
 
     return 0;
