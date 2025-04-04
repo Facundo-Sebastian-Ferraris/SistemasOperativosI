@@ -74,7 +74,7 @@ CTRL + ALT + 3
 
 ---
 
-## **⚙️ Ejercicio 4: Creación de Procesos en Xinu**  
+## [**⚙️ Ejercicio 4: Creación de Procesos en Xinu**](./Respuestas.md#4-creacion-de-procesos)
 
 🔹 **Incluir código** para crear **dos procesos** (ejemplo: [ej1.c](https://github.com/zrafa/xinu/blob/main/xinu-pc/misc/ej1.c)).  
 
@@ -88,9 +88,9 @@ CTRL + ALT + 3
 
 ---
 
-## **⏳ Ejercicio 5: Finalización de Procesos en Xinu**  
+## [**⏳ Ejercicio 5: Finalización de Procesos en Xinu**](./Respuestas.md#5-finalizacion-de-procesos)  
 
-🔹 **Modificar `main`** para:  
+🔹 **Modificar ejercicio anterior** para:  
 
 1. Esperar **10 segundos**.  
 2. Finalizar los procesos creados anteriormente.  

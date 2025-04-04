@@ -1,0 +1,6 @@
+BasedOnStyle: LLVM  # Estilo base (puedes usar LLVM, Google, Chromium, Mozilla, WebKit)
+IndentWidth: 4      # Indentación de 4 espacios
+TabWidth: 4         # Ancho de tabulación
+UseTab: Never       # Usa espacios en lugar de tabuladores
+BreakBeforeBraces: Attach  # Llaves en nueva línea (estilo Allman)
+ColumnLimit: 80     # Límite de caracteres por línea

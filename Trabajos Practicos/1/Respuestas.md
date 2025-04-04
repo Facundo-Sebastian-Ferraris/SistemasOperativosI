@@ -169,7 +169,7 @@ Para facilitar el trabajo con colores, se incluyó la librería **[colores.h](..
 
 ## [3. Incorporacion de programas en XINU 🖥️](./README.md#-ejercicio-3-incorporar-un-programa-al-shell-de-xinu)
 
-Para la instalacion de cualquier programa en XINU se debe tener ciertos recaudos, como por ejemplo que el metodo del codigo principal no debe llamarse `main()` y debe tener el prefijo `xsh` (que se explicara mas adelante, [click aqui para explicacion](#importancia-de-que-el-prototipo-no-debe-llamarse-main))
+Para la instalacion de cualquier programa en XINU se debe tener ciertos recaudos, como por ejemplo que el metodo del codigo principal no debe llamarse `main()` y debe tener el prefijo `xsh` (que se explicara mas adelante, [click aqui para explicacion](#️-importancia-de-que-el-prototipo-no-deba-llamarse-main))
 por lo que tendremos que llamarlo de otra forma, a modo de protocolo lo nombramos agregando de prefijo `xsh_`, ademas que es un void por lo que no es necesario indicarlo.
 
 ```c
@@ -346,108 +346,128 @@ Al ejecutar el comando de ayuda nos despliega la lista de programas que se puede
 
 Al tipear el comando `programita`, se ejecutara nuestro código.
 
-### Importancia de que el prototipo ^no^ debe llamarse main
+### ⚠️ Importancia de que el prototipo NO deba llamarse `main`  
 
-1. **El kernel ya tiene su propio `main()`**  
-   Xinu tiene una función `main()` principal en el kernel que:
-   - Inicializa todo el sistema operativo
-   - Configura hardware
-   - Lanza el shell primario
-
-   ```c
-   // En el código base del kernel:
-   int main(void) {
-       /* Inicialización del sistema */
-       ...
-   }
-   ```
+1. **El kernel ya tiene su propio `main()` donde:**  
+   - ⚙️ Inicializa todo el sistema operativo  
+   - 🔧 Configura hardware  
+   - 🚀 Lanza el shell primario  
 
 2. **Problema de enlazado (linking)**  
-   Si múltiples archivos definieran `main()`, el linker no sabría cuál es el verdadero punto de entrada, causando errores como:
+   ❗ Si varios archivos definieran `main()`, el linker no sabría cuál es el verdadero punto de entrada.  
 
-   ```bash
-   multiple definition of `main'
-   ```
-
-### 🔄 **Cómo Funciona el Modelo de Xinu**
+#### 🔄 **Cómo Funciona el Modelo de Xinu**  
 
 - **Programas como comandos del shell**:  
-  Cada "programa" es en realidad una función registrada en la tabla de comandos (`cmdtab`).
+  📌 Cada programa es una función registrada en la tabla de comandos (`cmdtab`).  
 
-- **Estructura típica**:
-
-  ```c
-  #include <xinu.h>
-  
-  void xsh_mi_programa(void) {  // ¡No es main()!
-      kprintf("Hola desde Xinu!\n");
-  }
-  ```
-
-### ⚙️ **Detalles Técnicos**
+#### ⚙️ **Detalles Técnicos**  
 
 1. **Namespace del kernel**  
-   Xinu mantiene un espacio de nombres plano (no hay namespaces como en C++), por lo que los nombres deben ser únicos.
+   🏷️ Xinu mantiene un espacio de nombres plano, por lo que los nombres deben ser únicos.  
 
 2. **Protocolo de prefijos**  
-   La convención `xsh_` (eXinu SHell) ayuda a:
-   - Evitar colisiones
-   - Identificar claramente comandos del shell
-   - Organizar el código
+   La convención `xsh_` permite:  
+   - ✅ Evitar colisiones  
+   - 🔍 Identificar claramente comandos del shell  
+   - 🗂️ Organizar el código  
 
 3. **Sistema de build**  
-   El Makefile de Xinu espera esta estructura:
+   El Makefile de Xinu espera esta estructura:  
 
    ```makefile
    # Busca funciones con prefijo xsh_ para incluirlas
    COMMANDS += xsh_mi_programa.o
-   ```
+   ```  
 
-### 💡 **Ejemplo Práctico**
+#### 🚫 **Si utilizamos `main()` de todas formas**  
 
-Así es como Xinu maneja el punto de entrada real vs. comandos:
+1. **Error de compilación**: ⚠️ En sistemas con protección de símbolos.  
+2. **Comportamiento indefinido**:  
+   - 💥 Reemplazar el `main()` del kernel (¡catastrófico!)  
+   - ❓ Generar un ejecutable que no arranca  
+   - � Causar corrupción de memoria  
 
-```c
-// kernel/main.c
-int main(void) {            // Punto de entrada REAL
-    ... // Inicialización
-    shell();               // Lanza el shell
-}
+## [4. Creación de procesos](./README.md#️-ejercicio-4-creación-de-procesos-en-xinu)
 
-// shell/shell.c
-void shell(void) {
-    while(1) {
-        // Busca en cmdtab (que contiene xsh_*)
-        ejecutar_comando(entrada_usuario);
-    }
-}
-```
-
-### 🚫 **¿Qué pasaría si usaras main()?**
-
-1. **Error de compilación**: En sistemas con protección de símbolos.
-2. **Comportamiento indefinido**: En otros casos, el programa podría:
-   - Reemplazar el main() del kernel (¡catastrófico!)
-   - Generar un ejecutable que no arranca
-   - Causar corrupción de memoria
-
-### ✅ **Best Practice en Xinu**
-
-Siempre usa:
+En Xinu los argumentos para la creacion de un proceso son los siguientes:
 
 ```c
-void xsh_nombre_programa(void) { ... }
+pid32 create(
+   void   *funcaddr,  /* Address of the function*/
+   uint32 ssize,   /* Stack size in bytes*/
+   pri16  priority,   /* Process priority > 0*/
+   char   *name,   /* Name (for debugging)*/
+   uint32 nargs,   /* Number of args that follow*/
+   ...
+)
 ```
 
-Y regístralo en:
+Donde:
 
-1. `shprototypes.h` (declaración)
-2. `cmdtab[]` (tabla de comandos)
+- ***funcaddr**: puntero con direccion a la funcion
+- **ssize**: tamaño de la pila en bytes
+- **priority**: número de prioridad (debe ser mayor a 0 y cuanto mas grande, mayor la prioridad)
+- ***name**: no se
+- **nargs**: número de argumentos que contiene la funcion
+- **...**: valores de los argumentos de la funcion (respetar el orden)
 
-### 🌟 **Excepción Notable**
+Basándonos en el codigo enlazado [(click aqui)](../../xinu-pc/shell/xsh_intro_procesos.c)
+Cuya salida es:
 
-El único archivo que debe contener `main()` es el que inicia el kernel, típicamente:
+![Salida](./OutPut_Procesos.png)
 
-```bash
-xinu-pc/system/initialize.c
-```
+### Observación 💠
+
+La salida es una alternancia entre los colores azul y rojo. Si miramos con cuidado podremos apreciar caracteres como 44m o 41m. Esto se debe a que al estar compartiendo el recurso de la consola para imprimir el fondo, se genera una zona critica interrumpiendo los procesos reciprocamente.
+
+Para que el sistema conmute más rápido, debemos alterar el valor de una constante conocida como `QUANTUM` (ubicada en el [`kernel.c`](../../xinu-pc/include/kernel.h)), que indica en milisegundos, la cantidad de tiempo que se le concede a un proceso el uso de la cpu, antes de ser interrumpido por el planificador. Por lo que si reducimos el numero la alternancia sera mucho mayor. Por ejemplo, la imagen anterior ocurrio cuando el QUANTUM estaba a 2, ahora al reducirlo a 1, la conmutacion se aprecia mas seguido.
+
+![Salida2](./OutPut_Procesos2.png)
+
+Cabe destacar que al cambiar el valor de esta constante implica el reinicio del sistema con `make clean` para que se actualice el cambio.
+
+## [🛑 **Ejercicio 5: Finalización de Procesos en Xinu**](./README.md#-ejercicio-5-finalización-de-procesos-en-xinu)  
+
+### 🔄 **Modificación del Código Anterior**  
+
+Partimos de una versión actualizada del código original:  
+👉 **[Ver código modificado](../../xinu-pc/shell/xsh_intro_procesos2.c)**  
+
+---
+
+### ⚡ **Cómo Finalizar Procesos en Xinu**  
+
+En Xinu, la función `kill(pid32 pid)` permite **terminar un proceso específico** usando su _PID_ (Identificador de Proceso).  
+
+### 📌 **Pasos Clave**  
+
+1. **Obtener el PID**:  
+   - Al crear un proceso con `create()`, este retorna su `pid32`.  
+
+   ```c
+   pid32 mi_proceso = create(...);  // Guarda el PID
+   ```  
+
+2. **Terminar el Proceso**:  
+   - Usa `kill()` con el PID almacenado:  
+
+   ```c
+   kill(mi_proceso);  // Finaliza el proceso
+   ```  
+
+3. **Verificación**:  
+   - Si `kill()` retorna `OK`, el proceso fue eliminado.  
+   - Si retorna `SYSERR`, hubo un error (ej: PID inválido).  
+
+---
+
+### 🎬 **Ejemplo Visual**  
+
+![Ejemplo de salida](./ejemploSalida.gif) _(Proceso terminado exitosamente)_  
+
+## **📚 6: Cambiando size de la pila**
+
+Dado el [codigo](../../xinu-pc/shell/xsh_intro_procesos3.c), obtenemos el mismo resultado que en el [anterior](#-ejercicio-5-finalización-de-procesos-en-xinu).
+
+## **🐧 Ejercicio 7: Creación de Procesos en Linux**  
