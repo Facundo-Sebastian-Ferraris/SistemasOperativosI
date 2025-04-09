@@ -1,3 +1,4 @@
+#include <kernel.h>
 /* in file xsh_argecho.c */
 extern shellcmd xsh_argecho(int32, char *[]);
 
@@ -83,3 +84,7 @@ extern shellcmd xsh_mi_programa();
 extern shellcmd xsh_intro_procesos(void);
 extern shellcmd xsh_intro_procesos2(void);
 extern shellcmd xsh_intro_procesos3(void);
+
+extern shellcmd xsh_primos();
+
+extern shellcmd xsh_NIM();

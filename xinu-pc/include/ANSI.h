@@ -1,34 +1,45 @@
 #ifndef ANSI_H
 #define ANSI_H
 
-// --- Limpieza de pantalla/línea ---
+#include <xinu.h> // Para kprintf
+
+/* ==================== */
+/*  LIMPIEZA DE PANTALLA */
+/* ==================== */
 #define aCLEAR "\033[2J"   // Borra toda la pantalla
 #define aCLINE "\033[2K"   // Borra la línea actual
-#define aCLEND "\033[K"    // Borra desde el cursor hasta el fin de línea
-#define aCLSTART "\033[1K" // Borra desde el cursor hasta el inicio de línea
+#define aCLEND "\033[K"    // Borra desde cursor hasta fin de línea
+#define aCLSTART "\033[1K" // Borra desde cursor hasta inicio de línea
 
-// --- Movimiento básico del cursor (sin argumentos) ---
-#define aUP "\033[A"          // Mueve el cursor arriba 1 línea
-#define aDOWN "\033[B"        // Mueve el cursor abajo 1 línea
-#define aRIGHT "\033[C"       // Mueve el cursor a la derecha 1 columna
-#define aLEFT "\033[D"        // Mueve el cursor a la izquierda 1 columna
-#define aLINE_START "\033[1G" // Mueve el cursor al principio
-// --- Movimiento del cursor con argumentos (ej: aUP(5)) ---
-#define aUP(n) "\033[" #n "A"
-#define aDOWN(n) "\033[" #n "B"
-#define aRIGHT(n) "\033[" #n "C"
-#define aLEFT(n) "\033[" #n "D"
+/* ======================== */
+/*  MOVIMIENTO DEL CURSOR   */
+/* ======================== */
+// Básico (sin argumentos)
+#define aLINE_START "\033[1G" // Mueve cursor al inicio de línea
 
-// --- Posicionamiento absoluto ---
-#define aHOME "\033[H"                           // Mueve el cursor a (0,0)
-#define aPOS(row, col) "\033[" #row ";" #col "H" // Ej: aaPOS(5,3)
+// Funciones con parámetros (implementación inline)
+static inline void aUP(int n) { kprintf("\033[%dA", n); }
+static inline void aDOWN(int n) { kprintf("\033[%dB", n); }
+static inline void aRIGHT(int n) { kprintf("\033[%dC", n); }
+static inline void aLEFT(int n) { kprintf("\033[%dD", n); }
 
-// --- Guardar/Restaurar posición del cursor ---
-#define aSAVE "\033[s" // Guarda la posición actual
-#define aLOAD "\033[u" // Restaura la posición guardada
+// Posicionamiento absoluto
+static inline void aPOS(int row, int col) { kprintf("\033[%d;%dH", row, col); }
+#define aHOME "\033[H" // Mueve cursor a (0,0)
 
-// --- Atributos de texto (opcional) ---
-#define TEXT_RESET "\033[0m" // Reinicia formato (color, negrita, etc.)
-#define TEXT_BOLD "\033[1m"  // Texto en negrita
+/* ========================= */
+/*  ESTADO DEL CURSOR        */
+/* ========================= */
+#define aSAVE "\033[s" // Guarda posición actual
+#define aLOAD "\033[u" // Restaura posición guardada
+
+/* ==================== */
+/*  ATRIBUTOS DE TEXTO  */
+/* ==================== */
+#define TEXT_RESET "\033[0m"  // Reinicia formato
+#define TEXT_BOLD "\033[1m"   // Texto en negrita
+#define TEXT_RED "\033[31m"   // Texto en rojo
+#define TEXT_GREEN "\033[32m" // Texto en verde
+// Puedes añadir más colores según necesites
 
 #endif // ANSI_H
