@@ -86,5 +86,3 @@ extern shellcmd xsh_intro_procesos2(void);
 extern shellcmd xsh_intro_procesos3(void);
 
 extern shellcmd xsh_primos();
-
-extern shellcmd xsh_NIM();

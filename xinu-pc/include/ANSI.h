@@ -14,10 +14,6 @@
 #define aLEFT "\033[D"        // Mueve el cursor a la izquierda 1 columna
 #define aLINE_START "\033[1G" // Mueve el cursor al principio
 // --- Movimiento del cursor con argumentos (ej: aUP(5)) ---
-#define aUP(n) "\033[" #n "A"
-#define aDOWN(n) "\033[" #n "B"
-#define aRIGHT(n) "\033[" #n "C"
-#define aLEFT(n) "\033[" #n "D"
 
 // --- Posicionamiento absoluto ---
 #define aHOME "\033[H"                           // Mueve el cursor a (0,0)

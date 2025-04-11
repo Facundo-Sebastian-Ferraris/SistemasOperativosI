@@ -34,7 +34,6 @@ const struct cmdent cmdtab[] = {
     {"procesos2", FALSE, xsh_intro_procesos2}, // 24
     {"procesos3", FALSE, xsh_intro_procesos3}, // 25
     {"primos", FALSE, xsh_primos},             // 26
-    {"nim", FALSE, xsh_NIM}                    // 27
 
 };
 
