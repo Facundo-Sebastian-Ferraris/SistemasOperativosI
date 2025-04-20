@@ -75,9 +75,11 @@ void xsh_snake(void) {
         } else { //situacion NO perdida
             if (map[x_snake][y_snake] < 0) {
                 snakeValue++;
+                map[x_snake][y_snake] = snakeValue;
+            } else{
+                map[x_snake][y_snake] = snakeValue;
+                simularCola();
             }
-            map[x_snake][y_snake] = snakeValue;
-            simularCola();
         }
 
         // exit
