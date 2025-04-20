@@ -85,4 +85,7 @@ extern shellcmd xsh_intro_procesos(void);
 extern shellcmd xsh_intro_procesos3(void);
 
 extern shellcmd xsh_primos();
-extern shellcmd xsh_prisma();
+extern shellcmd xsh_mario();
+extern shellcmd xsh_maze();
+extern shellcmd xsh_pivot();
+extern shellcmd xsh_snake();
