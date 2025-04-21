@@ -43,13 +43,15 @@ void xsh_snake(void) {
             break;
         }
 
-        if (tecla == 'p') {
-            if (suspendido == 0) {
-                suspendido = 1;
-                sleepms(100);
-                kprintf("\033[5;30H JUEGO PAUSADO");
-            } else {
-                suspendido = 0;
+        if (!perdido) {
+            if (tecla == 'p') {
+                if (suspendido == 0) {
+                    suspendido = 1;
+                    sleepms(100);
+                    kprintf("\033[5;30H JUEGO PAUSADO");
+                } else {
+                    suspendido = 0;
+                }
             }
         }
 
