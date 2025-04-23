@@ -4,252 +4,226 @@
 #include <clock.h>
 #include <prototypes.h>
 
-#define PARED1 "\033[48;2;0;0;255m  \033[0m"
-#define PARED2 "\033[48;2;0;255;0m  \033[0m"
-#define PARED3 "\033[48;2;255;0;0m  \033[0m"
+// ========== DEFINICIONES DE COLORES ==========
+#define COLOR_RESET   "\033[0m"
+#define PARED1        "\033[48;2;0;0;255m  " COLOR_RESET
+#define PARED2        "\033[48;2;0;255;0m  " COLOR_RESET
+#define PARED3        "\033[48;2;255;0;0m  " COLOR_RESET
+#define SNAKE_COLOR1  "\033[48;2;255;0;255m  " COLOR_RESET
+#define SNAKE_COLOR2  "\033[48;2;125;0;125m  " COLOR_RESET
 
-#define AMIGOSERPENTINO1 "\033[48;2;255;0;255m  \033[0m"
-#define AMIGOSERPENTINO2 "\033[48;2;125;0;125m  \033[0m"
+// ========== CONSTANTES DEL JUEGO ==========
+#define MAX_X         55
+#define MAX_Y         34
+#define INIT_X        (MAX_X/2)
+#define INIT_Y        (MAX_Y/2)
+#define INIT_DIR      'd'
+#define INIT_LENGTH   2
+#define DELAY_MS      60
 
-// Variable global
-int map[55][36], x_snake = 27, y_snake = 17,
+// ========== ESTADOS DEL JUEGO ==========
+typedef enum {
+    RUNNING,
+    PAUSED,
+    GAME_OVER
+} GameState;
 
-                 x_max = 54, y_max = 35, snakeValue = 8;
-int suspendido = 0;
+// ========== VARIABLES GLOBALES ==========
+int mapa[MAX_X][MAX_Y];
+int cabeza_x = INIT_X, cabeza_y = INIT_Y;
+int longitud_serpiente = INIT_LENGTH;
+int record = INIT_LENGTH-1;
+GameState estado = RUNNING;
+char direccion_actual = INIT_DIR;
+char tecla=INIT_DIR;
 
-int perdido = 0;
-char tecla = 'd';
-// PROTOTIPOS
-void rellenarConCeros(void), crearMarco(void), imprimirArreglo(void),
-    renderizarArreglo(void), avance(void);
+// ========== PROTOTIPOS ==========
+void inicializarJuego(void);
+void crearMapa(void);
+void resetearJuego(void);
+void moverSerpiente(void);
+void generarComida(void);
+void actualizarCola(void);
+void renderer(void);
 
-// MAIN 🔱
+// ========== FUNCIÓN PRINCIPAL ==========
 void xsh_snake(void) {
     kprintf(aCLEAR aHOME);
-
-    resetGame();
-    srand(getticks()); // Inicializar semilla
-    pid32 renderer = create(renderizarArreglo, 16 * 1024, 20, "renderer", 0);
-    pid32 avanzador = create(avance, 16 * 1024, 20, "avanzador", 0);
+    resetearJuego();
+    
+    srand(getticks());
+    pid32 render_pid = create(renderer, 16 * 1024, 20, "render", 0);
+    pid32 move_pid = create(moverSerpiente, 16 * 1024, 20, "move", 0);
 
     control(CONSOLE, TC_MODER, 0, 0);
-    resume(renderer);
-    resume(avanzador);
+    resume(render_pid);
+    resume(move_pid);
+    
     while (1) {
         tecla = getc(stdin);
 
-        // exit
-        if (tecla == '0') {
-            break;
-        }
+        if (tecla == '0') break;  // Salir del juego
 
-        if (!perdido) {
+        if (estado != GAME_OVER) {
             if (tecla == 'p') {
-                if (suspendido == 0) {
-                    suspendido = 1;
+                estado = (estado == PAUSED) ? RUNNING : PAUSED;
+                if (estado == PAUSED) {
                     sleepms(100);
                     kprintf("\033[5;30H JUEGO PAUSADO");
-                } else {
-                    suspendido = 0;
                 }
             }
         }
 
-        if (tecla == 'r') {
-            resetGame();
+        if (tecla == 'r' && estado == GAME_OVER) {
+            resetearJuego();
         }
+
     }
 
     control(CONSOLE, TC_MODEC, 0, 0);
-    kill(renderer);
-    kill(avanzador);
-    rellenarConCeros();
+    kill(render_pid);
+    kill(move_pid);
     kprintf(aCLEAR aHOME);
 }
-// FIN MAIN 🔱
 
-// MATRIZADO ⚙️
-void rellenarConCeros(void) {
-    for (int i = 0; i < 36; i++) {
-        for (int j = 0; j < 55; j++) {
-            map[j][i] = 0;
+// ========== FUNCIONES DEL JUEGO ==========
+void inicializarJuego(void) {
+    for (int y = 0; y < MAX_Y; y++) {
+        for (int x = 0; x < MAX_X; x++) {
+            mapa[x][y] = 0;
         }
     }
 }
 
-void crearMarco(void) {
-    for (int i = 0; i < 36; i++) {
-        map[0][i] = -1;
-        map[54][i] = -1;
+void crearMapa(void) {
+    // Bordes horizontales
+    for (int x = 0; x < MAX_X; x++) {
+        mapa[x][0] = -1;
+        mapa[x][MAX_Y-1] = -1;
     }
-    for (int i = 0; i < 55; i++) {
-        map[i][0] = -1;
-        map[i][35] = -1;
-    }
-}
-
-void imprimirArreglo(void) {
-    for (int i = 0; i < 36; i++) {
-        for (int j = 0; j < 55; j++) {
-            kprintf("%d ", map[j][i]);
-        }
-        kprintf("\n");
+    
+    // Bordes verticales
+    for (int y = 0; y < MAX_Y; y++) {
+        mapa[0][y] = -1;
+        mapa[MAX_X-1][y] = -1;
     }
 }
 
-void resetGame(void) {
-    rellenarConCeros();
-    crearMarco();
-    snakeValue = 2;
-    x_snake = 27;
-    y_snake = 17;
-    tecla = 'd';
-    suspendido = 0;
-    perdido = 0;
-    spawnComida();
+void resetearJuego(void) {
+    inicializarJuego();
+    crearMapa();
+    cabeza_x = INIT_X;
+    cabeza_y = INIT_Y;
+    longitud_serpiente = INIT_LENGTH;
+    direccion_actual = INIT_DIR;
+    tecla=INIT_DIR;
+    estado = RUNNING;
+    generarComida();
 }
 
-void simularCola(void) {
-    for (int i = 1; i < 35; i++) {
-        for (int j = 1; j < 54; j++) {
-            if (map[j][i] > 0) {
-                map[j][i]--;
-            }
-        }
-    }
-}
-
-void avance(void) {
-    char actual = 'd';
+void moverSerpiente(void) {
     while (1) {
-        if (!suspendido) {
-            /* code */
+        if (estado == RUNNING) {
+            sleepms(DELAY_MS);
+            // Validación de dirección
+            if ((tecla == 'w' && direccion_actual != 's') ||
+            (tecla == 'a' && direccion_actual != 'd') ||
+            (tecla == 's' && direccion_actual != 'w') ||
+            (tecla == 'd' && direccion_actual != 'a')) {
+            direccion_actual = tecla;
+    }
 
-            sleepms(60);
-            int condicion =
-                (tecla == 'w' && actual != 's') || (tecla == 'a' && actual != 'd') ||
-                (tecla == 's' && actual != 'w') || (tecla == 'd' && actual != 'a');
-
-            if (condicion) {
-                actual = tecla;
+            // Actualizar posición según dirección
+            switch (direccion_actual) {
+                case 'w': cabeza_y--; break;
+                case 'a': cabeza_x--; break;
+                case 's': cabeza_y++; break;
+                case 'd': cabeza_x++; break;
             }
 
-            // direccionales
-            switch (actual) {
-            case 'w':
-                y_snake--;
-                break;
-            case 'a':
-                x_snake--;
-                break;
-            case 's':
-                y_snake++;
-                break;
-            case 'd':
-                x_snake++;
-                break;
-            default:
-                break;
-            }
+            // Limitar movimiento dentro del mapa
+            cabeza_x = (cabeza_x <= 0) ? 1 : (cabeza_x >= MAX_X-1) ? MAX_X-2 : cabeza_x;
+            cabeza_y = (cabeza_y <= 0) ? 1 : (cabeza_y >= MAX_Y-1) ? MAX_Y-2 : cabeza_y;
 
-            // limitadores
-            if (x_snake >= x_max) {
-                x_snake = x_max - 1;
-            } else if (x_snake <= 0) {
-                x_snake = 1;
-            }
-
-            if (y_snake >= y_max) {
-                y_snake = y_max - 1;
-            } else if (y_snake <= 0) {
-                y_snake = 1;
-            }
-
-            // situaciones posicionales
-            if (map[x_snake][y_snake] > 0) { // situacion de perdida
-                perdido = 1;
-            } else { // situacion NO perdida
-                if (map[x_snake][y_snake] < 0) {
-                    snakeValue++;
-                    map[x_snake][y_snake] = snakeValue - 1;
-                    spawnComida();
-                } else {
-                    map[x_snake][y_snake] = snakeValue;
-                    simularCola();
-                }
-            }
-
-            if (perdido) {
-                suspendido = 1;
+            // Verificar colisiones
+            if (mapa[cabeza_x][cabeza_y] > 0) {
+                estado = GAME_OVER;
                 sleepms(1000);
-                kprintf("\033[5;30H" aSAVE "PERDISTE!!! Puntuacion: %d" aLOAD
-                        "\033[B Presione R para reiniciar o 0 para cerrar!",
-                        snakeValue - 1);
+
+                kprintf("\033[5;30H" aSAVE "GAME OVER!" aLOAD );
+                
+                if (longitud_serpiente-1>record){
+                    record = longitud_serpiente-1;
+                    kprintf("\033[BNUEVO RECORD!!! Puntuacion: %d" aLOAD, record);
+                } else{
+                    kprintf("\033[BPuntuacion: %d" aLOAD, longitud_serpiente-1);
+                }
+                kprintf( "\033[2BPresione R para reiniciar o 0 para cerrar!");
+
+            } 
+            else if (mapa[cabeza_x][cabeza_y] < 0) {
+                // Comer comida
+                longitud_serpiente++;
+                mapa[cabeza_x][cabeza_y] = longitud_serpiente;
+                generarComida();
+            } 
+            else {
+                // Movimiento normal
+                mapa[cabeza_x][cabeza_y] = longitud_serpiente;
+                actualizarCola();
             }
         }
     }
 }
 
-void spawnComida(void) {
-    int min = 1;
-    int x = min + (rand() % (x_max - 1 - min + 1));
-    int y = min + (rand() % (y_max - 1 - min + 1));
-    int condicion = map[x][y] < 0;
-    while (!condicion) {
-        x = min + (rand() % (x_max - 1 - min + 1));
-        y = min + (rand() % (y_max - 1 - min + 1));
-        condicion = map[x][y] <= 0;
-    }
-    map[x][y] = -1;
+void generarComida(void) {
+    int x, y;
+    do {
+        x = 1 + (rand() % (MAX_X - 2));
+        y = 1 + (rand() % (MAX_Y - 2));
+    } while (mapa[x][y] != 0);
+    
+    mapa[x][y] = -1;
 }
 
-// RENDERIZADO 🖌️
-void renderizarArreglo(void) {
-    int tiki = 1;
-    int taki = 0;
+void actualizarCola(void) {
+    for (int y = 1; y < MAX_Y-1; y++) {
+        for (int x = 1; x < MAX_X-1; x++) {
+            if (mapa[x][y] > 0) {
+                mapa[x][y]--;
+            }
+        }
+    }
+}
 
+void renderer(void) {
+    int anim_pared = 0;
+    int anim_snake = 0;
+    
     while (1) {
-        if (!suspendido) {
-
-            sleepms(60);
-            kprintf(aHOME); // Limpiar pantalla
-            for (int i = 0; i < 36; i++) {
-                for (int j = 0; j < 55; j++) {
-                    if (map[j][i] > 0) {
-                        switch (taki) {
-                        case 0:
-                            kprintf(AMIGOSERPENTINO1);
-                            break;
-
-                        default:
-                            kprintf(AMIGOSERPENTINO2);
-                            break;
-                        }
-                    } else if (map[j][i] < 0) {
-                        switch (tiki) {
-                        case 0:
-                            kprintf(PARED1);
-                            break;
-                        case 1:
-                            kprintf(PARED2);
-                            break;
-                        default:
-                            kprintf(PARED3);
-                            break;
-                        }
+        if (estado == RUNNING) {
+            sleepms(DELAY_MS);
+            kprintf(aHOME);
+            
+            for (int y = 0; y < MAX_Y; y++) {
+                for (int x = 0; x < MAX_X; x++) {
+                    if (mapa[x][y] > 0) {
+                        kprintf("%s", (anim_snake == 0) ? SNAKE_COLOR1 : SNAKE_COLOR2);
+                    } else if (mapa[x][y] < 0) {
+                        kprintf("%s", (anim_pared == 0) ? PARED1 : 
+                                      (anim_pared == 1) ? PARED2 : PARED3);
                     } else {
                         kprintf("  ");
                     }
 
-                    tiki = (++tiki) % 3; // Actualizar tiki para animación
-                    taki = (++taki) % 2;
+                    anim_pared = (anim_pared + 1) % 3;
+                    anim_snake = (anim_snake + 1) % 2;
                 }
-
-                if (i != 35) {
-                    kprintf("\n"); // Nueva línea, excepto en la última fila
-                }
+                if (y != MAX_Y-1) kprintf("\n");
             }
-            tiki = (++tiki) % 3; // Actualizar tiki globalmente
+            anim_pared = (anim_pared + 1) % 3;
+            anim_snake = (anim_snake + 1) % 2;
+            kprintf("\033[36;5H" aSAVE "Score: %d" aLOAD "\033[ARecord: %d", longitud_serpiente-1, record);
         }
     }
 }
