@@ -11,19 +11,22 @@
 
 //World
 int 
-    mapX = 8,
-    mapY = 8,
-    mapS = 64,
+    windowWidth = 1024,
+    windowHeight = 720,
+    mapX = 10,
+    mapY = 10,
+    mapS = 100,
     map[]={
-        1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 1, 0, 0, 0, 0, 1,
-        1, 0, 1, 0, 0, 0, 0, 1,
-        1, 0, 1, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 1, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1,
-
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     };
 //PLAYER ZONE
 float
@@ -56,21 +59,48 @@ int keyStates[256] = {0};
 
 void update(int value) {
     // Movimiento hacia adelante/atrás
+    int
+        xo = 10,
+        yo = 10;
+
+    if (pdx < 0){
+        xo *= -1;
+    } 
+    if (pdy < 0){
+        yo *= -1;
+    }
+    int
+        ipx =  px/64.0,
+        ipx_add_xo = (px+xo)/64.0,
+        ipx_sub_xo = (px-xo)/64.0,
+        
+        ipy =  py/64.0,
+        ipy_add_yo = (py+yo)/64.0,
+        ipy_sub_yo = (py-yo)/64.0;
+
     if (keyStates['w']) {
-        px += pdx * 0.5; // Multiplicador para suavizar
-        py += pdy * 0.5;
+        if(map[ipy*mapX + ipx_add_xo] == 0){px += pdx*0.5;}
+        if(map[ipy_add_yo*mapX + ipx] == 0){py += pdy*0.5;}
     }
     if (keyStates['s']) {
-        px -= pdx * 0.5;
-        py -= pdy * 0.5;
+        if(map[ipy*mapX + ipx_sub_xo] == 0){px -= pdx*0.5;}
+        if(map[ipy_sub_yo*mapX + ipx] == 0){py -= pdy*0.5;}
     }
 
     // Rotación izquierda/derecha
     if (keyStates['a']) {
-        pa -= 0.05;
-        if (pa < 0) pa += 2*PI;
-        pdx = cos(pa) * 5;
-        pdy = sin(pa) * 5;
+        if (keyStates['k'])
+        {
+
+            if(map[ipy*mapX + ipx_sub_xo] == 0){px -= pdx*0.5;}
+            if(map[ipy_sub_yo*mapX + ipx] == 0){py -= pdy*0.5;}
+        } else {
+            pa -= 0.05;
+            if (pa < 0) pa += 2*PI;
+            pdx = cos(pa) * 5;
+            pdy = sin(pa) * 5;
+        }
+        
     }
     if (keyStates['d']) {
         pa += 0.05;
@@ -79,19 +109,21 @@ void update(int value) {
         pdy = sin(pa) * 5;
     }
 
+
+
     glutPostRedisplay();
     glutTimerFunc(16, update, 0); // ~60 FPS (1000ms / 60 ≈ 16ms)
 }
 
 // Callback para tecla presionada
 void keyboard(unsigned char key, int x, int y) {
-    keyStates[key] = 1; // Marcar tecla como presionada
+    keyStates[std::tolower(key)] = 1; // Marcar tecla como presionada
     if (key == 27) exit(0); // Salir con ESC
 }
 
 // Callback para tecla liberada
 void keyboardUp(unsigned char key, int x, int y) {
-    keyStates[key] = 0; // Marcar tecla como liberada
+    keyStates[std::tolower(key)] = 0; // Marcar tecla como liberada
 }
 
 
@@ -143,7 +175,7 @@ void drawRays2D(){
         x0,     // incrementos en X
         y0;     // incrementos en Y
 
-    float rayos = 45; //cantidad de rayos a visualizar
+    float rayos = 60; //cantidad de rayos a visualizar
     ra = pa - DG * (rayos/2) ;
     if (ra<0.0){
         ra += 2*PI;
@@ -275,10 +307,10 @@ void drawRays2D(){
         // if(lineH>320){
         //     lineH=320;
         // }
-        glLineWidth(8);
+        glLineWidth((windowWidth/rayos)+1);
         glBegin(GL_LINES);
-        glVertex2i(r*8 + 530, lineO);
-        glVertex2i(r*8 + 530, lineO + lineH);
+        glVertex2i(r*(windowWidth/rayos) + 1, lineO);
+        glVertex2i(r*(windowWidth/rayos) + 1, lineO + lineH);
         glEnd();
 
         ra += DG;
@@ -289,20 +321,20 @@ void drawRays2D(){
             ra = 0;
         }
         // glColor3f(1,0,0);
-        glLineWidth(1);
-        glBegin(GL_LINES);
-        glVertex2d(px,py);
-        glVertex2d(rx,ry);
-        glEnd();
+        // glLineWidth(1);
+        // glBegin(GL_LINES);
+        // glVertex2d(px,py);
+        // glVertex2d(rx,ry);
+        // glEnd();
     }
 }
 
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    drawMap2D();
+    // drawMap2D();
     drawRays2D();
-    drawPlayer();
+    // drawPlayer();
     glutSwapBuffers();
 
 }
@@ -317,13 +349,19 @@ void init(){
 
 }
 
+void resize(int w, int h){
+    glutReshapeWindow(windowWidth,windowHeight);
+}
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(1024, 512);
+    glutInitWindowSize(windowWidth, windowHeight);
+    glutInitWindowPosition(200,200);
     glutCreateWindow("EFARRSIR RayCasting");
     init();
     glutDisplayFunc(display);
+    glutReshapeFunc(resize);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
     glutTimerFunc(0, update, 0); // Iniciar temporizador
