@@ -33,10 +33,12 @@ const struct cmdent cmdtab[] = {
     {"procesos", FALSE, xsh_intro_procesos},   // 23
     {"procesos3", FALSE, xsh_intro_procesos3}, // 24
     {"primos", FALSE, xsh_primos},             // 25
+    {"procs", FALSE, xsh_Procesamiento},       // 29
     {"mario", FALSE, xsh_mario},               // 26
     {"maze", FALSE, xsh_maze},                 // 27
     {"pivot", FALSE, xsh_pivot},               // 28
-    {"snake", FALSE, xsh_snake}                // 29
+    {"snake", FALSE, xsh_snake},               // 29
+    {"mut", FALSE, mut},                       // 30
 
 };
 

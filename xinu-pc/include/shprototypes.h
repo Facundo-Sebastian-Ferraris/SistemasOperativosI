@@ -89,3 +89,7 @@ extern shellcmd xsh_mario();
 extern shellcmd xsh_maze();
 extern shellcmd xsh_pivot();
 extern shellcmd xsh_snake();
+
+extern shellcmd xsh_Procesamiento();
+
+extern shellcmd mut(void);

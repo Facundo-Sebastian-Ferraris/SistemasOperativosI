@@ -19,7 +19,7 @@
 #define INIT_Y        (MAX_Y/2)
 #define INIT_DIR      'd'
 #define INIT_LENGTH   2
-#define DELAY_MS      60
+#define DELAY_MS      20
 
 // ========== ESTADOS DEL JUEGO ==========
 typedef enum {
@@ -27,7 +27,6 @@ typedef enum {
     PAUSED,
     GAME_OVER
 } GameState;
-
 // ========== VARIABLES GLOBALES ==========
 int mapa[MAX_X][MAX_Y];
 int cabeza_x = INIT_X, cabeza_y = INIT_Y;
@@ -46,8 +45,13 @@ void generarComida(void);
 void actualizarCola(void);
 void renderer(void);
 
+sid32 rendevouz_matriz;
+sid32 rendevouz_renderer;
+
 // ========== FUNCIÓN PRINCIPAL ==========
 void xsh_snake(void) {
+    rendevouz_matriz = semcreate(1);
+    rendevouz_renderer = semcreate(0);
     kprintf(aCLEAR aHOME);
     resetearJuego();
     
@@ -124,6 +128,7 @@ void resetearJuego(void) {
 void moverSerpiente(void) {
     while (1) {
         if (estado == RUNNING) {
+            wait(rendevouz_matriz);
             sleepms(DELAY_MS);
             // Validación de dirección
             if ((tecla == 'w' && direccion_actual != 's') ||
@@ -172,6 +177,7 @@ void moverSerpiente(void) {
                 mapa[cabeza_x][cabeza_y] = longitud_serpiente;
                 actualizarCola();
             }
+            signal(rendevouz_renderer);
         }
     }
 }
@@ -202,6 +208,7 @@ void renderer(void) {
     
     while (1) {
         if (estado == RUNNING) {
+            wait(rendevouz_renderer);
             sleepms(DELAY_MS);
             kprintf(aHOME);
             
@@ -224,6 +231,7 @@ void renderer(void) {
             anim_pared = (anim_pared + 1) % 3;
             anim_snake = (anim_snake + 1) % 2;
             kprintf("\033[36;5H" aSAVE "Score: %d" aLOAD "\033[ARecord: %d", longitud_serpiente-1, record);
+            signal(rendevouz_matriz);
         }
     }
 }
