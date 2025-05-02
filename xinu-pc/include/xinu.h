@@ -1,5 +1,5 @@
 /* xinu.h - include all system header files */
-
+// clang-format off
 #include <kernel.h>
 #include <conf.h>
 #include <process.h>
