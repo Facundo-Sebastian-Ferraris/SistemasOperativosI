@@ -2,6 +2,12 @@
 sid32 mutex;
 int pid_sem;
 
+#define ROJO "\033[31m"
+#define MAGENTA "\033[35m"
+#define CIAN "\033[36m"
+#define VERDE "\033[32m"
+#define RESET "\033[0m"
+
 void mutex_init()
 {
     mutex = semcreate(1);
@@ -18,11 +24,11 @@ void mutex_lock()
         pid_sem = getpid(); // se registra el pid del proceso que logro tomar el semaforo
         // sleepms(1000);
     }
-    // else
-    // {
-    // kprintf(ROJO "Mismo proceso (%s) intenta lockear!\n" RESET,
-    // proctab[getpid()].prname);
-    // }
+    else
+    {
+        kprintf(ROJO "Mismo proceso (%s) intenta lockear!\n" RESET,
+                proctab[getpid()].prname);
+    }
 
     // OBSERVACIONES:
     // La condicion no es critica pues los procesos siempre tienen una pid unica
@@ -41,9 +47,9 @@ void mutex_unlock()
         // sleepms(1000);
         signal(mutex); // logra liberar el semaforo
     }
-    // else
-    // {
-    //     kprintf(MAGENTA "Un proceso no registrado (%s) intenta liberar!\n" RESET,
-    //             proctab[getpid()].prname);
-    // }
+    else
+    {
+        kprintf(MAGENTA "Un proceso no registrado (%s) intenta liberar!\n" RESET,
+                proctab[getpid()].prname);
+    }
 }
