@@ -12,6 +12,8 @@ extern void setPixelVGA(int x, int y, u16 color);
 void drawRect(int x, int y, int width, int height, u16 color);
 void drawHollowRect(int x, int y, int width, int height, u16 color);
 void drawImage3(int x, int y, int width, int height, const u16 *image);
+void drawImage3ToVGA(int x, int y, int size_x, int size_y, const u16 *image);
+void drawImage3Scaler(int x, int y, int size_x, int size_y, int scale_x, int scale_y, const u16 *image);
 float fminf(float a, float b);
 // void delay();
 void waitForVBlank();
