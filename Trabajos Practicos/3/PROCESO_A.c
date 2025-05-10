@@ -13,12 +13,20 @@ int main()
 
     // PROCESO DE EXTRACCION DE TEXTO EN .TXT
     char *PATH = "ubicacion/rancia/carpeta/mmap06.txt";
-    int fd = open(PATH, O_RDONLY); // 📂 Abrir
-    char buffer[4096];             // 🪣 Buffer estático
 
-    ssize_t bytes = read(fd, buffer, sizeof(buffer)); // 📖 Leer
-    buffer[bytes] = '\0';                             // 🏁 Terminar cadena
+    // abrir archivo en base a path y determinar solo lectura
+    int fd = open(PATH, O_RDONLY);
 
+    // crear un buffer para alojar el texto
+    char buffer[4096];
+
+    // leemos el archivo y alojamos todo en el buffer
+    ssize_t bytes = read(fd, buffer, sizeof(buffer));
+
+    // gracias que guardamos el size de bytes, podemos alojar el \0 al "final" de la direccion
+    buffer[bytes] = '\0';
+
+    // cerramos el archivo
     close(fd);
     // PROCESO DE CREACION DE REGION DE MEMORIA
     const int SIZE = 4096;
