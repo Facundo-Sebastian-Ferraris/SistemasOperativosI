@@ -146,6 +146,7 @@ struct FastEnemy fast;
 
 //====== 🔱 MAIN 🔱 ======//
 int galaga(void){
+	kprintf("\033[2J");
 	galaga_init();
 
 	
@@ -261,10 +262,10 @@ void display(){
 // INPUT CONTROLS ⌨️ ✨
 
 void buttons_functions(){
-	kprintf("Ejecutando Proceso de botobnes\n");
+	kprintf("\033[0;0HEjecutando Proceso de botobnes\n");
 	while (1)
 	{
-		kprintf("\r%x",tecla_actual);
+		// kprintf("\033[0;1H%x",tecla_actual);
 		if (estado != LOSING)
 		{
 			sleepms(30);
@@ -279,7 +280,7 @@ void buttons_functions(){
 
 			}
 			// player shots
-			if (KEY_DOWN_NOW(BUTTON_z)){
+			if (KEY_DOWN_NOW('z')){
 				if (shoots[curr_shot] == 0){
 					shoots[curr_shot] = 136 * 240 + player.playerX + 9; /* 24 widht player */
 					curr_shot++;
