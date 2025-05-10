@@ -5,8 +5,6 @@
 #include <fcntl.h>    /* For O_* constants */
 #include <string.h>
 
-void *p_msg(void *ptr);
-
 int main()
 {
     const int SIZE = 4096;
