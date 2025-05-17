@@ -1,6 +1,5 @@
 #include <xinu.h>
 #include <vga.h>
-typedef unsigned short u16;
 
 typedef struct
 {
@@ -37,21 +36,27 @@ void setPixel(int x, int y, u16 color)
 	if ((x >= 240) || (y >= 160))
 		return;
 
-	void *fb = (void *)(unsigned long)mbi->framebuffer_addr;
-	uint32 *pixel = fb + mbi->framebuffer_pitch * y + 4 * x;
-	//	 *pixel = color;
-	*pixel = rgb16_to_rgb32(color);
-}
+	// Factores de escala
+	int escala_X = VGA_WIDTH / 240;	 // 1024 / 240 = 4
+	int escala_Y = VGA_HEIGHT / 160; // 768 / 160 = 4
 
-void setPixelVGA(int x, int y, u16 color)
-{
-	if ((x >= VGA_WIDTH) || (y >= VGA_HEIGHT))
-		return;
+	// Calcular las coordenadas iniciales y finales del bloque escalado
+	int x_start = x * escala_X;		// Coordenada x inicial en la nueva resolución
+	int y_start = y * escala_Y;		// Coordenada y inicial en la nueva resolución
+	int x_end = (x + 1) * escala_X; // Coordenada x final (no inclusiva)
+	int y_end = (y + 1) * escala_Y; // Coordenada y final (no inclusiva)
 
 	void *fb = (void *)(unsigned long)mbi->framebuffer_addr;
-	uint32 *pixel = fb + mbi->framebuffer_pitch * y + 4 * x;
-	//	 *pixel = color;
-	*pixel = rgb16_to_rgb32(color);
+
+	// Dibujar un bloque de píxeles
+	for (int y1 = y_start; y1 < y_end && y1 < VGA_HEIGHT; y1++)
+	{
+		for (int x1 = x_start; x1 < x_end && x1 < VGA_WIDTH; x1++)
+		{
+			uint32 *pixel = fb + mbi->framebuffer_pitch * y1 + 4 * x1;
+			*pixel = rgb16_to_rgb32(color);
+		}
+	}
 }
 
 void pixeld(int x, int y, int color)
@@ -81,7 +86,7 @@ void pixel(unsigned x, unsigned y, uint32 color)
 void paint_screen()
 {
 
-	uint32 color = 0x00FFFF00;
+	uint32 color = 0x00ffff00;
 	int i, j, x, y;
 	open(VGA, NULL, 0);
 	for (y = 0; y < VGA_HEIGHT; y++)
