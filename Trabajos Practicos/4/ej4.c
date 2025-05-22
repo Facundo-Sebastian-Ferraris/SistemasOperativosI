@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdlib.h> // Para exit() y malloc()
+#include <stdlib.h>
 
 int largoArchivo(const char *pathing)
-{ // Cambiado a const char*
+{
     printf("Path: %s\n", pathing);
     int largo = 0;
 
@@ -34,7 +34,7 @@ char *guardarArchivo(const char *pathing, int size)
         exit(1);
     }
 
-    char *buffer = malloc(size * sizeof(char)); // Corregido: char*
+    char *buffer = malloc(size * sizeof(char));
     if (buffer == NULL)
     {
         perror("Error en malloc\n");
@@ -61,11 +61,11 @@ void imprimirReverso(char *buffer, int size)
 
 int main()
 {
-    const char *path = "./secreto.txt"; // const char*
+    const char *path = "./secreto.txt";
     int l = largoArchivo(path);
     char *buffer = guardarArchivo(path, l);
     imprimirReverso(buffer, l);
 
-    free(buffer); // Liberar memoria
+    free(buffer);
     return 0;
 }
