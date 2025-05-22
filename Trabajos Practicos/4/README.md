@@ -1,5 +1,7 @@
 # Ejercicios de Sistemas de Archivos 📂
 
+(Respuestas [aqui](./Respuestas.md)) 🚀✨
+
 ## Objetivos 🎯
 
 - Comprender de manera básica la relación entre bloques de disco y estructuras del Sistema de Archivos. 💾

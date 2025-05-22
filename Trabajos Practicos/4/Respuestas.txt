@@ -1,0 +1,28 @@
+# Respuestas TP4
+
+## Ejercicio 1: Estrategia de Ubicación de Bloques 📸
+
+Usted está trabajando en CANON, quien produce cámaras de fotografía digital. En el equipo de desarrollo del sistema operativo de la cámara. Se debe decidir y desarrollar un sistema de archivos.  
+**Pregunta**:  
+¿Qué estrategia de ubicación de bloques de datos para cada archivo le parece más conveniente?: ¿contiguo, posiblemente disperso con lista enlazada, o posiblemente disperso con bloques de índices? Explique el por qué de su decisión. El sistema de archivos almacena las fotos obtenidas por la cámara. 🖼️
+
+Primero es importante entender la definicion de cada tipo de ubicacion de bloques de datos para cada archivo.
+
+Contigua:
+    El archivo ocupa una cantidad de bloques contiguos, donde tiene acceso secuencial y directo
+    Sin embargo al ser un espacio contiguo no se puede determinar el espacio cuando el archivo crece, generando lo que se conoce como fragmentacion externa,
+que es cuando quedan bloques libres rodeado por bloques ocupados, dificultando el acceso y haciendo que la cabeza lectora realiza saltos para ir encontrando
+los bloques dispersos. La unica solucion es aplicar una desfragmentacion de memoria para reacomodar los bloques.
+
+Lista enlazada
+    Permite la lectura de un archivo almacenado en bloques dispersos, ya que en cada bloque contiene la siguiente ubicacion del bloque a leer.
+Sin embargo este dato ocupa espacio, y es probable que se realicen demasiados saltos.
+    Su version mejorada es la de FAT, que es File Allocation Table, donde guarda la secuencia de bloques que debe seguir, en vez de tenerlo en cada bloque.
+
+
+Lista indexada
+Se tiene un bloque "indice" donde se gaurdan los punteros de cada bloque.
+
+Lo mejor para las camaras seria Lista Enlazada tipo FAT ya que generalmente una imagen tiene un tamaño maximo y minimo. En base a eso se puede sentar el tamaño fijo de los bloques
+
+
