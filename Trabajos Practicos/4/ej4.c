@@ -17,7 +17,7 @@ int largoArchivo(const char *pathing)
 
     char c;
     while (read(fd, &c, 1) == 1)
-    { // Corregido: &c en lugar de c
+    {
         largo++;
     }
 
@@ -26,7 +26,7 @@ int largoArchivo(const char *pathing)
 }
 
 char *guardarArchivo(const char *pathing, int size)
-{ // Cambiado a char*
+{
     int fd = open(pathing, O_RDONLY);
     if (fd == -1)
     {
