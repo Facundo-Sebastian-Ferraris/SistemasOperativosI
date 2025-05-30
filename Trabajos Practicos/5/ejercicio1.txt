@@ -1,0 +1,31 @@
+a) tiene 983040000 bits
+b) 
+
+________________________________________________________
+Executed in   23.86 secs    fish           external
+   usr time   22.81 secs    0.00 millis   22.81 secs
+   sys time    0.49 secs    3.53 millis    0.48 secs
+
+c) pp esta en el segmento 4879056 
+d) La reserva en la memoria del heap la cual permite que los datos cuya asignacion y liberacion se realicen en tiempo de ejecucion
+
+OK, 
+direccion de pp :        0x4a82d0
+direccion de i: 0x7ffd2d61f80c
+direccion de j: 0x7ffd2d61f808
+direccion de k: 0x7ffd2d61f804PID: 12079
+
+fferraris@debian ~/2/S/T/5 (main)> pmap 12079
+12079:   ./usamem
+0000000000400000      4K r---- usamem
+0000000000401000    484K r-x-- usamem
+000000000047a000    160K r---- usamem
+00000000004a2000     16K r---- usamem
+00000000004a6000     12K rw--- usamem
+00000000004a9000     20K rw---   [ anon ]
+000000002896a000    136K rw---   [ anon ]
+00007fda672b5000 960004K rw---   [ anon ]
+00007ffd2d600000    132K rw---   [ pila ]
+00007ffd2d774000     16K r----   [ anon ]
+00007ffd2d778000      8K r-x--   [ anon ]
+ total           960992K
