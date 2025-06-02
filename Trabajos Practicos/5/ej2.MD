@@ -2,18 +2,18 @@
 
 ## ¿Qué es la caché TLB de un procesador, qué contiene y para qué se utiliza? 📍
 
-La **caché TLB (Translation Lookaside Buffer)** es una memoria caché especializada en el procesador que almacena traducciones recientes de direcciones virtuales a direcciones físicas para acelerar el proceso de traducción en sistemas con memoria virtual. 🚀
+La **caché TLB (Translation Lookaside Buffer)** es una memoria caché especializada en la MMU que almacena traducciones recientes de direcciones virtuales a direcciones físicas para agilizar el proceso de traducción en sistemas con memoria virtual. 🚀
 
 - **Contenido**:
   - Mapeos de direcciones virtuales a direcciones físicas. 📍
   - Cada entrada incluye:
-    - Una dirección virtual (o parte de ella, como el número de página virtual). 🔢
+    - Una dirección virtual. 🔢
     - La dirección física correspondiente. 🏠
-    - Metadatos como permisos (lectura/escritura), bits de validez y, en algunos casos, información sobre el tamaño de la página (4 KB o 2 MB). 📏
+    - Metadatos como permisos (lectura/escritura), y bits de validez.
 - **Uso**:
   - Cuando un programa accede a una dirección de memoria virtual, el procesador consulta la TLB para obtener la dirección física. 🔍
-  - Un "hit" en la TLB evita accesos a las tablas de páginas en memoria, que son más lentos. ✅
-  - Un "miss" requiere una caminata por las tablas de páginas, generando un **TLB miss** que impacta el rendimiento. ❌
+  - Un "acierto" en la TLB evita accesos a las tablas de páginas en memoria, que son más lentos. ✅
+  - Un "fallo" requiere implica volver a por las tablas de páginas, generando un **fallo de la TLB** que compromete el rendimiento. ❌
 - **Relación con `perf`**:
   - `l1_dtlb_misses`: Fallos en la TLB de nivel 1 para datos. 📉
   - `ls_l1_d_tlb_miss.tlb_reload_4k_l2_miss` y `ls_l1_d_tlb_miss.tlb_reload_2m_l2_miss`: Recargas de TLB para páginas de 4 KB o 2 MB desde niveles superiores (L2 o memoria). 🔄
@@ -23,7 +23,7 @@ La **caché TLB (Translation Lookaside Buffer)** es una memoria caché especiali
 La **caché de datos** es una memoria rápida en el procesador que almacena copias de datos frecuentemente utilizados de la RAM para reducir la latencia de acceso. ⚡
 
 - **Contenido**:
-  - Bloques de datos (líneas de caché, típicamente 64 bytes) copiados desde la RAM. 📦
+  - Bloques de datos (líneas de caché, generalmente de 64 bytes) copiados desde la RAM. 📦
   - Cada línea incluye:
     - Los datos en sí. 📊
     - Una etiqueta que identifica la dirección de memoria. 🏷️
@@ -136,9 +136,8 @@ Los datos de `perf` corresponden a tres programas (`sample1`, `sample2`, `sample
 
 La memoria reservada (`pp`) es un arreglo de `N * BSIZE` bytes (937 MB), interpretado como una matriz de `N` filas (240,000) y `BSIZE` columnas (4,096 bytes). 📏
 
-**Diagrama conceptual (texto)**:
+**Diagrama conceptual**:
 
-```bash
 Memoria reservada (pp):
 [ Fila 0: [0, 1, ..., 4095] ][ Fila 1: [4096, 4097, ..., 8191] ] ... [ Fila N-1 ] 📦
 
@@ -150,73 +149,64 @@ TLB (entradas para páginas de 4 KB o 2 MB):
 [ Página virtual 2 -> Física 2 ] 📍
 
 Recorrido de memoria:
+
 - sample2 (mejor rendimiento) 🏆:
+
   Secuencial por filas:
-  [Fila 0: 0, 1, 2, ..., 4095] -> [Fila 1: 4096, 4097, ..., 8191] -> ... 🚶
-  - Accesos consecutivos dentro de cada fila (4 KB).
+` [Fila 0: 0, 1, 2, ..., 4095] -> [Fila 1: 4096, 4097, ..., 8191] -> ... 🚶
+`  - Accesos consecutivos dentro de cada fila (4 KB).
   - Máxima localidad espacial: llena líneas de caché (64 bytes). 🧠
   - Mínimos fallos TLB: una página (4 KB) cubre una fila. 📍
-  Ejemplo: for (i=0; i<N; i++) for (j=0; j<BSIZE; j++) pp[i*BSIZE+j] = 2;
+  Ejemplo:
+
+  ```bash
+    for (i=0; i<N; i++) 
+      for (j=0; j<BSIZE; j++) 
+        pp[i*BSIZE+j] = 2;
+  ```
 
 - sample3 (rendimiento medio) ⚖️:
   Por bloques de 4 bytes con saltos de 4 KB:
-  [Fila 0: 0,1,2,3] -> [Fila 1: 4096,4097,4098,4099] -> ... -> [Fila N-1] -> [Fila 0: 4,5,6,7] -> ... 🏃
+`[Fila 0: 0,1,2,3] -> [Fila 1: 4096,4097,4098,4099] -> ... -> [Fila N-1] -> [Fila 0: 4,5,6,7] -> ... 🏃`  
   - Localidad espacial limitada: accesos consecutivos solo dentro de 4 bytes.
   - Saltos de 4 KB generan más fallos de caché y TLB. 📉
-  Ejemplo: for (k=0; k<BSIZE/4; k++) for (i=0; i<N; i++) for (j=0; j<4; j++) pp[i*BSIZE+(4*k+j)] = 2;
+  Ejemplo:
+  
+  ```bash
+  for (k=0; k<BSIZE/4; k++) 
+    for (i=0; i<N; i++) 
+      for (j=0; j<4; j++) 
+        pp[i*BSIZE+(4*k+j)] = 2;
+  ```
 
 - sample1 (peor rendimiento) 😔:
   Por columnas:
   [Fila 0: 0] -> [Fila 1: 4096] -> ... -> [Fila N-1] -> [Fila 0: 1] -> ... 🐢
   - Accesos no consecutivos (saltos de 4 KB).
   - Mínima localidad: altos fallos de caché y TLB. 📉
-  Ejemplo: for (j=0; j<BSIZE; j++) for (i=0; i<N; i++) pp[i*BSIZE+j] = 2;
-```
+  Ejemplo:
+
+  ```bash
+    for (j=0; j<BSIZE; j++)
+      for (i=0; i<N; i++) 
+        pp[i*BSIZE+j] = 2;
+  ```
 
 **Gráfico comparativo** (código Chart.js para visualizar fallos) 📊:
 
-```javascript
-{
-  "type": "bar",
-  "data": {
-    "labels": ["sample1 😔", "sample2 🏆", "sample3 ⚖️"],
-    "datasets": [
-      {
-        "label": "L1 DTLB Misses (millones) 📉",
-        "data": [601.573, 1.223, 246.136],
-        "backgroundColor": "rgba(255, 99, 132, 0.8)"
-      },
-      {
-        "label": "Cache Misses (millones) 📉",
-        "data": [1118.111, 5.708, 265.851],
-        "backgroundColor": "rgba(54, 162, 235, 0.8)"
-      }
-    ]
-  },
-  "options": {
-    "scales": {
-      "y": {
-        "beginAtZero": true,
-        "title": {
-          "display": true,
-          "text": "Cantidad (millones)"
-        }
-      },
-      "x": {
-        "title": {
-          "display": true,
-          "text": "Programa"
-        }
-      }
-    },
-    "plugins": {
-      "legend": {
-        "display": true
-      }
-    }
-  }
-}
-```
+## Gráficos comparativos 📊
+
+| Programa       | L1 DTLB Misses (millones) 📉 | Cache Misses (millones) 📉 |
+|----------------|------------------------------|----------------------------|
+| sample1 😔     | 601.573                      | 1,118.111                  |
+| sample2 🏆     | 1.223                        | 5.708                      |
+| sample3 ⚖️     | 246.136                      | 265.851                    |
+
+**Observaciones**:
+
+- **sample1** tiene los mayores fallos, reflejando su peor rendimiento (26.64 s). 😔
+- **sample2** muestra los menores fallos, explicando su mejor tiempo (7.61 s). 🏆
+- **sample3** tiene fallos intermedios, acorde con su tiempo intermedio (11.87 s). ⚖️
 
 ## Resumen 📝
 
