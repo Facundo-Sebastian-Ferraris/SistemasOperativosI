@@ -1,0 +1,38 @@
+ Performance counter stats for './sample3':
+
+       246.136.024      l1_dtlb_misses                                                        
+       245.226.959      ls_l1_d_tlb_miss.tlb_reload_4k_l2_miss                                      
+           149.730      ls_l1_d_tlb_miss.tlb_reload_2m_l2_miss                                      
+       265.851.205      cache-misses                                                          
+
+      11,873969805 seconds time elapsed
+
+      10,845304000 seconds user
+       1,022463000 seconds sys
+
+
+
+ Performance counter stats for './sample2':
+
+         1.222.778      l1_dtlb_misses                                                        
+           689.068      ls_l1_d_tlb_miss.tlb_reload_4k_l2_miss                                      
+            11.140      ls_l1_d_tlb_miss.tlb_reload_2m_l2_miss                                      
+         5.708.226      cache-misses                                                          
+
+       7,608464108 seconds time elapsed
+
+       6,484504000 seconds user
+       1,119224000 seconds sys
+
+
+ Performance counter stats for './sample1':
+
+       601.573.063      l1_dtlb_misses                                                        
+       471.953.763      ls_l1_d_tlb_miss.tlb_reload_4k_l2_miss                                      
+           309.005      ls_l1_d_tlb_miss.tlb_reload_2m_l2_miss                                      
+     1.118.111.307      cache-misses                                                          
+
+      26,640465097 seconds time elapsed
+
+      25,522551000 seconds user
+       1,110719000 seconds sys
