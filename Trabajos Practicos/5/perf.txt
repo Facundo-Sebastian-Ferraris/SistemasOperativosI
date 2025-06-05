@@ -36,3 +36,33 @@
 
       25,522551000 seconds user
        1,110719000 seconds sys
+
+
+1. ¿Qué versión tiene el peor rendimiento? ¿Encuentra una relación entre ese rendimiento con los fallos de caché y TLB reportados por perf?
+
+Análisis:
+
+    Tiempo de ejecución:
+        sample1: 26.64 segundos
+        sample3: 11.87 segundos
+        sample2: 7.61 segundos
+    Peor rendimiento: sample1 tiene el mayor tiempo de ejecución (26.64 segundos), lo que indica el peor rendimiento.
+
+Relación con fallos de caché y TLB:
+
+    Fallos TLB (l1_dtlb_misses):
+        sample1: 601,573,063
+        sample3: 246,136,024
+        sample2: 1,222,778
+    Fallos de caché (cache-misses):
+        sample1: 1,118,111,307
+        sample3: 265,851,205
+        sample2: 5,708,226
+
+Observaciones:
+
+    sample1 tiene el mayor número de fallos TLB (601M) y fallos de caché (1,118M), lo que correlaciona directamente con su mayor tiempo de ejecución. Los fallos TLB implican costosas caminatas por las tablas de páginas, y los fallos de caché requieren accesos a la RAM, ambos contribuyendo a la lentitud.
+    Los eventos ls_l1_d_tlb_miss.tlb_reload_4k_l2_miss (471M para sample1) y ls_l1_d_tlb_miss.tlb_reload_2m_l2_miss (309K) sugieren que sample1 usa principalmente páginas de 4 KB, lo que genera más accesos a tablas de páginas en memoria comparado con páginas más grandes (2 MB).
+
+Conclusión: El peor rendimiento de sample1 está relacionado con su alto número de fallos TLB y de caché, lo que indica un patrón de acceso a memoria poco eficiente, probablemente con accesos no secuenciales o aleatorios que no aprovechan la localidad espacial o temporal.
+
