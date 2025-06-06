@@ -38,6 +38,8 @@ const struct cmdent cmdtab[] = {
     {"maze", FALSE, xsh_maze},                 // 27
     {"pivot", FALSE, xsh_pivot},               // 28
     {"snake", FALSE, xsh_snake},               // 29
+    {"p2", FALSE, xsh_parcial2},               // 31
+    {"mp2", FALSE, inicio},                    // 31
     {"mut", FALSE, mut},                       // 30
 
 };

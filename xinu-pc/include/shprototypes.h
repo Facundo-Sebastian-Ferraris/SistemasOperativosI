@@ -93,3 +93,6 @@ extern shellcmd xsh_snake();
 extern shellcmd xsh_Procesamiento();
 
 extern shellcmd mut(void);
+
+extern shellcmd xsh_parcial2();
+extern shellcmd inicio();
